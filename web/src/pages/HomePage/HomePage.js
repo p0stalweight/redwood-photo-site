@@ -1,17 +1,11 @@
-import { Link, routes } from '@redwoodjs/router'
+import { Flex, Heading } from '@chakra-ui/core'
 
 const HomePage = () => {
   return (
-    <>
-      <h1>HomePage</h1>
-      <p>
-        Find me in <tt>./web/src/pages/HomePage/HomePage.js</tt>
-      </p>
-      <p>
-        My default route is named <tt>home</tt>, link to me with `
-        <Link to={routes.home()}>Home</Link>`
-      </p>
-    </>
+    <Flex height="100vh" justify="center" align="center" direction="column">
+      <Heading>Frank Postlewaite Photography</Heading>
+      <p>built with redwoodjs and chakra-ui</p>
+    </Flex>
   )
 }
 
