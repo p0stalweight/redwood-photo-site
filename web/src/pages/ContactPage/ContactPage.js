@@ -1,13 +1,13 @@
 import MainLayout from 'src/layouts/MainLayout'
 import { Heading } from '@chakra-ui/core'
 
-const HomePage = () => {
+const ContactPage = () => {
   return (
     <MainLayout>
-      <Heading>Galleries</Heading>
+      <Heading>Contact Page</Heading>
       <p>built with redwoodjs and chakra-ui</p>
     </MainLayout>
   )
 }
 
-export default HomePage
+export default ContactPage
