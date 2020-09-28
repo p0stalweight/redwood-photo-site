@@ -1,11 +1,13 @@
 import MainLayout from 'src/layouts/MainLayout'
-import { Heading } from '@chakra-ui/core'
+import { Heading, Box } from '@chakra-ui/core'
 
 const AboutPage = () => {
   return (
     <MainLayout>
-      <Heading>About Page</Heading>
-      <p>built with redwoodjs and chakra-ui</p>
+      <Box width="250px" mt="80px" mx="auto" textAlign="center">
+        <Heading>About Page</Heading>
+        <p>built with redwoodjs and chakra-ui</p>
+      </Box>
     </MainLayout>
   )
 }
