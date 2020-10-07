@@ -1,5 +1,6 @@
 import MainLayout from 'src/layouts/MainLayout'
 import GalleryThumbnail from 'src/components/GalleryThumbnail'
+import ImageUploader from 'src/components/ImageUploader'
 import { SimpleGrid } from '@chakra-ui/core'
 import mountains from './img/mountains.jpg'
 import nightsky from './img/nightsky.jpg'
@@ -27,6 +28,11 @@ const HomePage = () => {
           <GalleryThumbnail key={props.name} {...props} />
         ))}
       </SimpleGrid>
+      <ImageUploader />
+      <p> Adding Text!</p>
+      <img src="https://f002.backblazeb2.com/file/redwood-photo/R0261215.JPG"></img>
+
+      {/* Make an upload to backblaze */}
     </MainLayout>
   )
 }
