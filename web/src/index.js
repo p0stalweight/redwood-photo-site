@@ -6,6 +6,7 @@ import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 import Routes from 'src/Routes'
 
 import './index.css'
+import './scaffold.css'
 
 ReactDOM.render(
   <FatalErrorBoundary page={FatalErrorPage}>
