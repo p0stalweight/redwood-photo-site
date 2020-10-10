@@ -1,7 +1,7 @@
+import { SimpleGrid } from '@chakra-ui/core'
 import MainLayout from 'src/layouts/MainLayout'
 import GalleryThumbnail from 'src/components/GalleryThumbnail'
-import ImageUploader from 'src/components/ImageUploader'
-import { SimpleGrid } from '@chakra-ui/core'
+// import ImageUploader from 'src/components/ImageUploader'
 import mountains from './img/mountains.jpg'
 import nightsky from './img/nightsky.jpg'
 import ruins from './img/ruins.jpg'
@@ -23,7 +23,7 @@ const galleries = [
 const HomePage = () => {
   return (
     <MainLayout>
-      <SimpleGrid columns={[1, 2, 3]} spacing="10px" mx="10px">
+      <SimpleGrid columns={[1, 2, 3]} spacing={4} mt={8}>
         {galleries.map((props) => (
           <GalleryThumbnail key={props.name} {...props} />
         ))}

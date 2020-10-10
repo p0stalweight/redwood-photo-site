@@ -1,4 +1,4 @@
-import { Box, AspectRatio, Image } from '@chakra-ui/core'
+import { Center, Text, Box, AspectRatio, Image } from '@chakra-ui/core'
 
 const GalleryThumbnail = ({ name, src }) => {
   return (
@@ -6,21 +6,24 @@ const GalleryThumbnail = ({ name, src }) => {
       <AspectRatio maxWidth="400px" ratio={4 / 3}>
         <Image objectFit="cover" src={src} alt={name} />
       </AspectRatio>
-      <Box
-        as="h2"
-        color="white"
-        fontWeight="bold"
-        display="none"
-        position="relative"
-        mt="-50px"
-        zIndex="1"
-        textAlign="center"
-        _groupHover={{ display: 'block' }}
-      >
-        {name}
-        <br />
-        September 2020
-      </Box>
+
+      <Center>
+        <Text
+          display={{ base: 'block', md: 'none' }}
+          _groupHover={{ display: 'block' }}
+          color="white"
+          fontSize="xl"
+          fontWeight="bold"
+          textAlign="center"
+          position="relative"
+          mt="-70px"
+          zIndex="1"
+        >
+          {name}
+          <br />
+          September 2020
+        </Text>
+      </Center>
     </Box>
   )
 }
