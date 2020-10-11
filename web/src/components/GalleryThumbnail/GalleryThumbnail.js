@@ -1,10 +1,10 @@
 import { Center, Text, Box, AspectRatio, Image } from '@chakra-ui/core'
 
-const GalleryThumbnail = ({ name, src }) => {
+const GalleryThumbnail = ({ name, iconImageURL }) => {
   return (
     <Box role="group">
       <AspectRatio maxWidth="400px" ratio={4 / 3}>
-        <Image objectFit="cover" src={src} alt={name} />
+        <Image objectFit="cover" src={iconImageURL} alt={name} />
       </AspectRatio>
 
       <Center>

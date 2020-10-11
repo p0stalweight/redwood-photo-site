@@ -18,7 +18,7 @@ const MainLayout = ({ children }) => {
       <Flex padding="1.5rem" as="header">
         <Image boxSize={100} mr="1rem" src={logo} alt="Tree logo" />
 
-        <Heading as="h1" alignSelf={{ md: 'center' }}>
+        <Heading as="h1" alignSelf="center">
           Frank Postlewaite Photography
         </Heading>
 
