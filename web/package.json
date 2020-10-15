@@ -13,13 +13,10 @@
     ]
   },
   "dependencies": {
-    "@chakra-ui/core": "^0.8.0",
-    "@emotion/core": "^10.0.35",
-    "@emotion/styled": "^10.0.27",
-    "@redwoodjs/forms": "^0.19.1",
-    "@redwoodjs/router": "^0.19.1",
-    "@redwoodjs/web": "^0.19.1",
-    "emotion-theming": "^10.0.27",
+    "@chakra-ui/core": "^1.0.0-rc.5",
+    "@redwoodjs/forms": "^0.19.3",
+    "@redwoodjs/router": "^0.19.3",
+    "@redwoodjs/web": "^0.19.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

@@ -9,7 +9,7 @@ const MainLayout = ({ children }) => {
     <Box maxW="960px" mx="auto">
       <header>
         <Flex as="nav" align="center" wrap="wrap" padding="1.5rem">
-          <Image size="100px" mr="1rem" src={logo} alt="Tree logo" />
+          <Image w="100px" h="100px" mr="1rem" src={logo} alt="Tree logo" />
           <Flex align="center" mr={5}>
             <Heading as="h1" size="xl">
               Frank Postlewaite Photography
