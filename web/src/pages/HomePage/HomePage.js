@@ -28,11 +28,6 @@ const HomePage = () => {
           <GalleryThumbnail key={props.name} {...props} />
         ))}
       </SimpleGrid>
-      <ImageUploader />
-      <p> Adding Text!</p>
-      <img src="https://f002.backblazeb2.com/file/redwood-photo/R0261215.JPG"></img>
-
-      {/* Make an upload to backblaze */}
     </MainLayout>
   )
 }
