@@ -117,7 +117,7 @@ async function main() {
 
   await asyncForEach(photoData, async (photo, index) => {
     console.log(`Creating photo ${index + 1}...`)
-    photos.push(await db.review.create({ data: photo }))
+    photos.push(await db.photo.create({ data: photo }))
   })
 
   console.info(`\nSeeded ${photos.length} photos\n`)
