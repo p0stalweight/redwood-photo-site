@@ -1,11 +1,11 @@
-import GalleriesLayout from 'src/layouts/GalleriesLayout'
+import MainLayout from 'src/layouts/MainLayout'
 import GalleryCell from 'src/components/GalleryCell'
 
 const GalleryPage = ({ id }) => {
   return (
-    <GalleriesLayout>
+    <MainLayout>
       <GalleryCell id={id} />
-    </GalleriesLayout>
+    </MainLayout>
   )
 }
 
