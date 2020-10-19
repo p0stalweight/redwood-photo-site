@@ -13,8 +13,9 @@ export const QUERY = gql`
       id
       name
       photos {
-        id
         imageURL
+        galleryId
+        order
       }
     }
   }
@@ -33,10 +34,10 @@ export const Success = ({ gallery: { name, photos } }) => {
         <Heading>{name}</Heading>
       </Center>
       <SimpleGrid columns={[1, 2, 3]} spacing={4} mt={8}>
-        {photos.map((photo, i) => (
-          <Link key={i} to={routes.photo({ id: photo.id })}>
+        {photos.map(({ galleryId, order, imageURL }, i) => (
+          <Link key={i} to={routes.photo({ galleryId, order })}>
             <AspectRatio maxWidth="400px" ratio={4 / 3}>
-              <Image objectFit="cover" src={photo.imageURL} />
+              <Image objectFit="cover" src={imageURL} />
             </AspectRatio>
           </Link>
         ))}

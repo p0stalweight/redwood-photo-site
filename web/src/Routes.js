@@ -56,7 +56,11 @@ const Routes = () => {
         page={AdminGalleriesPage}
         name="adminGalleries"
       />
-      <Route path="/photos/{id:Int}" page={PhotoPage} name="photo" />
+      <Route
+        path="/galleries/{galleryId:Int}/photos/{order:Int}"
+        page={PhotoPage}
+        name="photo"
+      />
       <Route path="/galleries/{id:Int}" page={GalleryPage} name="gallery" />
       <Route path="/contact" page={ContactPage} name="contact" />
       <Route path="/about" page={AboutPage} name="about" />
