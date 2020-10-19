@@ -1,3 +1,4 @@
+import { Link, routes } from '@redwoodjs/router'
 import {
   SimpleGrid,
   Center,
@@ -12,6 +13,7 @@ export const QUERY = gql`
       id
       name
       photos {
+        id
         imageURL
       }
     }
@@ -32,9 +34,11 @@ export const Success = ({ gallery: { name, photos } }) => {
       </Center>
       <SimpleGrid columns={[1, 2, 3]} spacing={4} mt={8}>
         {photos.map((photo, i) => (
-          <AspectRatio key={i} maxWidth="400px" ratio={4 / 3}>
-            <Image objectFit="cover" src={photo.imageURL} />
-          </AspectRatio>
+          <Link key={i} to={routes.photo({ id: photo.id })}>
+            <AspectRatio maxWidth="400px" ratio={4 / 3}>
+              <Image objectFit="cover" src={photo.imageURL} />
+            </AspectRatio>
+          </Link>
         ))}
       </SimpleGrid>
     </>

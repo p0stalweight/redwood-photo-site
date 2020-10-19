@@ -1,12 +1,7 @@
-import PhotosLayout from 'src/layouts/PhotosLayout'
 import PhotoCell from 'src/components/PhotoCell'
 
 const PhotoPage = ({ id }) => {
-  return (
-    <PhotosLayout>
-      <PhotoCell id={id} />
-    </PhotosLayout>
-  )
+  return <PhotoCell id={id} />
 }
 
 export default PhotoPage

@@ -1,12 +1,12 @@
-import Photo from 'src/components/Photo'
+// import { Link, routes } from '@redwoodjs/router'
+import { Image, Center } from '@chakra-ui/core'
 
 export const QUERY = gql`
-  query FIND_PHOTO_BY_ID($id: Int!) {
-    photo: photo(id: $id) {
+  query PhotoQuery($id: Int!) {
+    photo(id: $id) {
       id
       order
       imageURL
-      createdAt
       galleryId
     }
   }
@@ -14,8 +14,14 @@ export const QUERY = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => <div>Photo not found</div>
+export const Empty = () => <div>Empty</div>
+
+export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ photo }) => {
-  return <Photo photo={photo} />
+  return (
+    <Center>
+      <Image src={photo.imageURL} height="100vh" objectFit="cover" />
+    </Center>
+  )
 }
