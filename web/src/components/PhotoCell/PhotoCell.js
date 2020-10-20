@@ -1,5 +1,6 @@
 import { Link, routes } from '@redwoodjs/router'
-import { Image, Center, IconButton } from '@chakra-ui/core'
+import MainLayout from 'src/layouts/MainLayout'
+import { Image, HStack, Center, IconButton, AspectRatio } from '@chakra-ui/core'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 
 export const QUERY = gql`
@@ -25,18 +26,32 @@ export const Success = ({
   gallerySize,
 }) => {
   return (
-    <Center>
-      <Link to={routes.photo({ galleryId, order: order - 1 })}>
-        <IconButton isDisabled={order < 2} icon={<ArrowBackIcon />} size="lg" />
-      </Link>
-      <Image src={imageURL} height="100vh" objectFit="cover" />
-      <Link to={routes.photo({ galleryId, order: order + 1 })}>
-        <IconButton
-          isDisabled={order == gallerySize}
-          icon={<ArrowForwardIcon />}
-          size="lg"
-        />
-      </Link>
-    </Center>
+    <MainLayout>
+      <Center pt="2rem">
+        <HStack>
+          <Link to={routes.photo({ galleryId, order: order - 1 })}>
+            <IconButton
+              isDisabled={order < 2}
+              icon={<ArrowBackIcon />}
+              variant="outline"
+              isRound
+              size="lg"
+            />
+          </Link>
+          <AspectRatio width="700px" ratio={4 / 3}>
+            <Image src={imageURL} objectFit="cover" />
+          </AspectRatio>
+          <Link to={routes.photo({ galleryId, order: order + 1 })}>
+            <IconButton
+              isDisabled={order == gallerySize}
+              icon={<ArrowForwardIcon />}
+              isRound
+              variant="outline"
+              size="lg"
+            />
+          </Link>
+        </HStack>
+      </Center>
+    </MainLayout>
   )
 }
