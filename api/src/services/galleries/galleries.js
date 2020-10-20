@@ -10,6 +10,14 @@ export const gallery = ({ id }) => {
   })
 }
 
+export const gallerySize = ({ id }) => {
+  return db.photo.count({
+    where: {
+      galleryId: id,
+    },
+  })
+}
+
 export const createGallery = ({ input }) => {
   return db.gallery.create({
     data: input,
