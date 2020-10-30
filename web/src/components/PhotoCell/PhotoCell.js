@@ -1,7 +1,7 @@
 import { Link, routes } from '@redwoodjs/router'
 import MainLayout from 'src/layouts/MainLayout'
 import { Image, HStack, Center, IconButton, AspectRatio } from '@chakra-ui/core'
-import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
+import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
 export const QUERY = gql`
   query PHOTO_DETAIL($galleryId: Int!, $order: Int!) {
@@ -29,27 +29,41 @@ export const Success = ({
     <MainLayout>
       <Center pt="2rem">
         <HStack>
-          <Link to={routes.photo({ galleryId, order: order - 1 })}>
+          {order >= 2 ? (
+            <Link to={routes.photo({ galleryId, order: order - 1 })}>
+              <IconButton
+                icon={<ArrowLeftIcon />}
+                variant="unstyled"
+                size="lg"
+              />
+            </Link>
+          ) : (
             <IconButton
-              isDisabled={order < 2}
-              icon={<ArrowBackIcon />}
-              variant="outline"
-              isRound
+              icon={<ArrowLeftIcon />}
+              disabled
+              variant="unstyled"
               size="lg"
             />
-          </Link>
+          )}
           <AspectRatio width="700px" ratio={4 / 3}>
             <Image src={imageURL} objectFit="cover" />
           </AspectRatio>
-          <Link to={routes.photo({ galleryId, order: order + 1 })}>
+          {order !== gallerySize ? (
+            <Link to={routes.photo({ galleryId, order: order + 1 })}>
+              <IconButton
+                icon={<ArrowRightIcon />}
+                variant="unstyled"
+                size="lg"
+              />
+            </Link>
+          ) : (
             <IconButton
               isDisabled={order == gallerySize}
-              icon={<ArrowForwardIcon />}
-              isRound
-              variant="outline"
+              icon={<ArrowRightIcon />}
+              variant="unstyled"
               size="lg"
             />
-          </Link>
+          )}
         </HStack>
       </Center>
     </MainLayout>
