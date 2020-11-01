@@ -35,7 +35,7 @@ export const Success = ({ gallery: { name, photos } }) => {
       </Center>
       <SimpleGrid columns={[1, 2, 3]} spacing={4} mt={8}>
         {photos.map(({ galleryId, order, imageURL }, i) => (
-          <Link key={i} to={routes.photo({ galleryId, order })}>
+          <Link key={i} to={routes.galleryPhoto({ galleryId, order })}>
             <AspectRatio maxWidth="400px" ratio={4 / 3}>
               <Image objectFit="cover" src={imageURL} />
             </AspectRatio>

@@ -1,8 +1,8 @@
 import { render, screen } from '@redwoodjs/testing'
-import { Loading, Empty, Failure, Success } from './PhotoCell'
-import { standard } from './PhotoCell.mock'
+import { Loading, Empty, Failure, Success } from './GalleryPhotoCell'
+import { standard } from './GalleryPhotoCell.mock'
 
-describe('PhotoCell', () => {
+describe('GalleryPhotoCell', () => {
   test('Loading renders successfully', () => {
     render(<Loading />)
     // Use screen.debug() to see output
@@ -20,7 +20,7 @@ describe('PhotoCell', () => {
   })
 
   test('Success renders successfully', async () => {
-    render(<Success photo={standard().photo} />)
+    render(<Success galleryPhoto={standard().galleryPhoto} />)
     expect(screen.getByText(/42/i)).toBeInTheDocument()
   })
 })

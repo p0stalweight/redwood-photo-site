@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import PhotoPage from './PhotoPage'
+import GalleryPhotoPage from './GalleryPhotoPage'
 
-describe('PhotoPage', () => {
+describe('GalleryPhotoPage', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<PhotoPage id="42" />)
+      render(<GalleryPhotoPage />)
     }).not.toThrow()
   })
 })

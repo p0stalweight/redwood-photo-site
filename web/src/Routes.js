@@ -18,8 +18,8 @@ const Routes = () => {
       <Route path="/galleries/{id:Int}" page={GalleryPage} name="gallery" />
       <Route
         path="/galleries/{galleryId:Int}/photos/{order:Int}"
-        page={PhotoPage}
-        name="photo"
+        page={GalleryPhotoPage}
+        name="galleryPhoto"
       />
       <Route
         path="/admin/photos/new"
