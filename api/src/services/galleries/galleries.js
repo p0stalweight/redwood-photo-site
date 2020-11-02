@@ -7,6 +7,13 @@ export const galleries = () => {
 export const gallery = ({ id }) => {
   return db.gallery.findOne({
     where: { id },
+    include: {
+      photos: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
+    },
   })
 }
 
