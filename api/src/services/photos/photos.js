@@ -24,14 +24,6 @@ export const photo = ({ id }) => {
   })
 }
 
-export const photoByGalleryIdAndOrder = ({ galleryId, order }) => {
-  return db.photo.findOne({
-    where: {
-      galleryId_order: { galleryId, order },
-    },
-  })
-}
-
 export const createPhoto = ({ input }) => {
   return db.photo.create({
     data: foreignKeyReplacement(input),

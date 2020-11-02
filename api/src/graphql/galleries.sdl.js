@@ -10,7 +10,6 @@ export const schema = gql`
   type Query {
     galleries: [Gallery!]!
     gallery(id: Int!): Gallery
-    gallerySize(id: Int!): Int
   }
 
   input CreateGalleryInput {

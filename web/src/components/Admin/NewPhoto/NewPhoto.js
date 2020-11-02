@@ -2,6 +2,8 @@ import { useMutation, useFlash } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
 import PhotoForm from 'src/components/Admin/PhotoForm'
 
+import { QUERY } from 'src/components/Admin/PhotosCell'
+
 const CREATE_PHOTO_MUTATION = gql`
   mutation CreatePhotoMutation($input: CreatePhotoInput!) {
     createPhoto(input: $input) {
@@ -17,6 +19,11 @@ const NewPhoto = () => {
       navigate(routes.adminPhotos())
       addMessage('Photo created.', { classes: 'rw-flash-success' })
     },
+    // This refetches the query on the list page. Read more about other ways to
+    // update the cache over here:
+    // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
+    refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
   })
 
   const onSave = (input) => {

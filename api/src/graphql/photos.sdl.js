@@ -11,7 +11,6 @@ export const schema = gql`
   type Query {
     photos: [Photo!]!
     photo(id: Int!): Photo
-    photoByGalleryIdAndOrder(galleryId: Int!, order: Int!): Photo
   }
 
   input CreatePhotoInput {

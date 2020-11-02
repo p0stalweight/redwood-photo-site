@@ -12,15 +12,6 @@ import { Router, Route } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
-      <Route path="/" page={HomePage} name="home" />
-      <Route path="/about" page={AboutPage} name="about" />
-      <Route path="/contact" page={ContactPage} name="contact" />
-      <Route path="/galleries/{id:Int}" page={GalleryPage} name="gallery" />
-      <Route
-        path="/galleries/{galleryId:Int}/photos/{order:Int}"
-        page={GalleryPhotoPage}
-        name="galleryPhoto"
-      />
       <Route
         path="/admin/photos/new"
         page={AdminNewPhotoPage}
@@ -56,6 +47,15 @@ const Routes = () => {
         path="/admin/galleries"
         page={AdminGalleriesPage}
         name="adminGalleries"
+      />
+      <Route path="/" page={HomePage} name="home" />
+      <Route path="/about" page={AboutPage} name="about" />
+      <Route path="/contact" page={ContactPage} name="contact" />
+      <Route path="/galleries/{id:Int}" page={GalleryPage} name="gallery" />
+      <Route
+        path="/galleries/{galleryId:Int}/photos/{order:Int}"
+        page={GalleryPhotoPage}
+        name="galleryPhoto"
       />
       <Route notfound page={NotFoundPage} />
     </Router>

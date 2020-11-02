@@ -17,6 +17,10 @@ const UPDATE_PHOTO_MUTATION = gql`
   mutation UpdatePhotoMutation($id: Int!, $input: UpdatePhotoInput!) {
     updatePhoto(id: $id, input: $input) {
       id
+      order
+      imageURL
+      createdAt
+      galleryId
     }
   }
 `
