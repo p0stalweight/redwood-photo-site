@@ -1,7 +1,7 @@
 const ImageUploader = () => {
   return (
     <div>
-      <p>Image Uploader</p>
+      <p>Image Uploader will go here!</p>
     </div>
   )
 }
