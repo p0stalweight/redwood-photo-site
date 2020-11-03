@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import ImageUploader from './ImageUploader'
+import GalleryUploadPage from './GalleryUploadPage'
 
-describe('ImageUploader', () => {
+describe('GalleryUploadPage', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<ImageUploader />)
+      render(<GalleryUploadPage />)
     }).not.toThrow()
   })
 })
