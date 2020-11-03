@@ -27,3 +27,10 @@ model Photo {
   gallery   Gallery    @relation(fields: [galleryId], references: [id])
   galleryId Int
 }
+
+model AuthorizationRequest {
+  id Int @id @default(autoincrement())
+  authorizationToken String
+  backblazeApiUrl String
+  backblazeDownloadUrl String
+}
