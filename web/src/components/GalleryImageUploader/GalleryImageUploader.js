@@ -21,4 +21,4 @@ const GalleryImageUploader = () => {
   )
 }
 
-export default ImageUploader
+export default GalleryImageUploader
