@@ -9,11 +9,9 @@ export const getAuthorizationRequest= async() => {
     "Authorization": `Basic ${encoded}`
   }
 
-
   const response = await fetch(url, {headers: headers})
-
-    const json = await response.json()
-    console.log(json)
+  const json = await response.json()
+  console.log(json)
 
   return {
     authorizationToken: json.authorizationToken,
@@ -21,9 +19,3 @@ export const getAuthorizationRequest= async() => {
     backblazeDownloadUrl: json.downloadUrl
   }
 }
-
-/*DELETE
-        apiURL = data['apiUrl']
-        authToken = data['authorizationToken']
-        downloadURL = data['downloadUrl']
-*/

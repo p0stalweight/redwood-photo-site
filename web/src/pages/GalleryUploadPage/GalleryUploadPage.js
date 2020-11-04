@@ -3,6 +3,7 @@ import GalleryImageUploader from 'src/components/GalleryImageUploader'
 import FileUploadCell from 'src/components/FileUploadCell'
 
 const GalleryUploadPage = () => {
+
   return (
     <>
       <h1>GalleryUploadPage</h1>
@@ -12,8 +13,8 @@ const GalleryUploadPage = () => {
         My default route is named <code>galleryUpload</code>, link to me with `
         <Link to={routes.galleryUpload()}>GalleryUpload</Link>`
 
-         {} <FileUploadCell/>}
 
+        { <FileUploadCell/> }
     </>
   )
 }

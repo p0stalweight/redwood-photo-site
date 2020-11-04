@@ -18,6 +18,7 @@ const GalleryImageUploader = () => {
         maxFileSize={5242880}
         withPreview={true}
       />
+
   )
 }
 
