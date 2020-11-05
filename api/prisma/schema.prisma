@@ -10,27 +10,28 @@ generator client {
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
-
 model Gallery {
-  id    Int     @id @default(autoincrement())
-  name String
-  createdAt DateTime  @default(now())
+  id           Int      @id @default(autoincrement())
+  name         String
+  createdAt    DateTime @default(now())
   iconImageURL String
-  photos Photo[]
+  photos       Photo[]
 }
 
 model Photo {
-  id    Int     @id @default(autoincrement())
-  order Int
-  imageURL String
-  createdAt DateTime  @default(now())
-  gallery   Gallery    @relation(fields: [galleryId], references: [id])
+  id        Int      @id @default(autoincrement())
+  order     Int
+  imageURL  String
+  createdAt DateTime @default(now())
+  gallery   Gallery  @relation(fields: [galleryId], references: [id])
   galleryId Int
 }
 
 model AuthorizationRequest {
-  id Int @id @default(autoincrement())
-  authorizationToken String
-  backblazeApiUrl String
-  backblazeDownloadUrl String
+  id                       Int    @id @default(autoincrement())
+  authorizationToken       String
+  backblazeApiUrl          String
+  backblazeDownloadUrl     String
+  backblazeUploadUrl       String
+  backblazeUploadAuthToken String
 }

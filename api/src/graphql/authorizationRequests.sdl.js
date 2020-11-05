@@ -4,6 +4,8 @@ export const schema = gql`
     authorizationToken: String!
     backblazeApiUrl: String!
     backblazeDownloadUrl: String!
+    backblazeUploadUrl:       String!
+    backblazeUploadAuthToken: String!
   }
 
   type Query {
@@ -14,11 +16,15 @@ export const schema = gql`
     authorizationToken: String!
     backblazeApiUrl: String!
     backblazeDownloadUrl: String!
+    backblazeUploadUrl:       String!
+    backblazeUploadAuthToken: String!
   }
 
   input UpdateAuthorizationRequestInput {
     authorizationToken: String
     backblazeApiUrl: String
     backblazeDownloadUrl: String
+    backblazeUploadUrl:       String
+    backblazeUploadAuthToken: String
   }
 `

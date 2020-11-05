@@ -8,6 +8,8 @@ export const QUERY = gql`
       authorizationToken
       backblazeApiUrl
       backblazeDownloadUrl
+      backblazeUploadUrl
+      backblazeUploadAuthToken
     }
   }
 `

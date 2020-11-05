@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 
 export const getAuthorizationRequest= async() => {
+  /* Initial authorization request */
   let keyID = 'eb0c3dc00973'
   let key = '002f25d1bbbe810922e21b8b64ca0124cf163cf787'
   let encoded = Buffer.from(`${keyID}:${key}`).toString('base64')
@@ -10,14 +11,29 @@ export const getAuthorizationRequest= async() => {
   }
 
   const response = await fetch(url, {headers: headers})
-  const json = await response.json()
-  console.log(json)
+  const authorizationJson = await response.json()
+  console.log(authorizationJson)
 
-  /* Add the upload URL API call */
+  /* Request the upload url */
+  let bucketId = 'ce0b002c732dcc2070490713'
+  let uploadRequestUrl = await authorizationJson.apiUrl + '/b2api/v2/b2_get_upload_url'
+  const uploadRequestHeaders = await {Authorization: `${authorizationJson.authorizationToken}`}
+  const uploadRequestBody = JSON.stringify({ bucketId: `${bucketID}` })
+
+  const uploadResponse = await fetch(uploadRequestUrl, {method: 'Post', headers: uploadRequestHeaders, body: uploadRequestBody})
+  const uploadJson = await uploadResponse.json
+
+  /*fetch(proxyURL + targetURL, {
+      method: 'POST',
+      headers: new Headers({
+        Authorization: `${authToken}`,
+      }),
+      body: JSON.stringify({ bucketId: `${bucketID}` })*/
 
   return {
-    authorizationToken: json.authorizationToken,
-    backblazeApiUrl: json.apiUrl,
-    backblazeDownloadUrl: json.downloadUrl
-  }
+    authorizationToken: authorizationJson.authorizationToken,
+    backblazeApiUrl: authorizationJson.apiUrl,
+    backblazeDownloadUrl: authorizationJson.downloadUrl,
+    backblazeUploadUrl: uploadJson.uploadUrl,
+    backblazeUploadAuthToken: uploadJson.authorizationToken,
 }
