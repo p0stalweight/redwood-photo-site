@@ -10,9 +10,6 @@ const GalleryUploadPage = () => {
       <div>
         <GalleryImageUploader/>
       </div>
-        My default route is named <code>galleryUpload</code>, link to me with `
-        <Link to={routes.galleryUpload()}>GalleryUpload</Link>`
-
 
         { <FileUploadCell/> }
     </>

@@ -13,6 +13,8 @@ export const getAuthorizationRequest= async() => {
   const json = await response.json()
   console.log(json)
 
+  /* Add the upload URL API call */
+
   return {
     authorizationToken: json.authorizationToken,
     backblazeApiUrl: json.apiUrl,
