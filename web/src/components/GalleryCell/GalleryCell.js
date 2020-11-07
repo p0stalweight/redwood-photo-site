@@ -9,7 +9,7 @@ import {
 
 export const QUERY = gql`
   query GalleryQuery($id: Int!) {
-    gallery(id: $id) {
+    gallery: galleryWithPhotos(id: $id) {
       id
       name
       photos {

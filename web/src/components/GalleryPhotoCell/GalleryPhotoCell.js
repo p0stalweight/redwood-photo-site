@@ -5,8 +5,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
 export const QUERY = gql`
   query FIND_PHOTO_BY_GALLERY_ID_AND_ORDER($galleryId: Int!, $order: Int!) {
-    photoByGalleryIdAndOrder(galleryId: $galleryId, order: $order) {
-      id
+    photo: photoByGalleryIdAndOrder(galleryId: $galleryId, order: $order) {
       order
       imageURL
       galleryId
@@ -22,7 +21,7 @@ export const Empty = () => <div>Empty</div>
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({
-  photoByGalleryIdAndOrder: { imageURL, order, galleryId },
+  photo: { imageURL, order, galleryId },
   gallerySize,
 }) => {
   return (
