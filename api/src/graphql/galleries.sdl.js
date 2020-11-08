@@ -5,6 +5,7 @@ export const schema = gql`
     createdAt: DateTime!
     iconImageURL: String!
     photos: [Photo]!
+    size: Int
   }
 
   type Query {
@@ -15,11 +16,13 @@ export const schema = gql`
   input CreateGalleryInput {
     name: String!
     iconImageURL: String!
+    photos: [CreatePhotoInput!]
   }
 
   input UpdateGalleryInput {
     name: String
     iconImageURL: String
+    photos: [UpdatePhotoInput!]
   }
 
   type Mutation {

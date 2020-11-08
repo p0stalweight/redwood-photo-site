@@ -6,10 +6,14 @@ import {
   TextField,
   Submit,
 } from '@redwoodjs/forms'
+import DndPhotoGrid from 'src/components/DndPhotoGrid'
+import { useState } from 'react'
 
 const GalleryForm = (props) => {
+  const [photos, setPhotos] = useState(props?.gallery?.photos || [])
+
   const onSubmit = (data) => {
-    props.onSave(data, props?.gallery?.id)
+    props.onSave({ ...data, photos }, props?.gallery?.id)
   }
 
   return (
@@ -53,6 +57,8 @@ const GalleryForm = (props) => {
           validation={{ required: true }}
         />
         <FieldError name="iconImageURL" className="rw-field-error" />
+
+        <DndPhotoGrid photos={photos} setPhotos={setPhotos} />
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

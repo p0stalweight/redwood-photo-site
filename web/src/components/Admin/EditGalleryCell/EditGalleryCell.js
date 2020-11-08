@@ -4,14 +4,20 @@ import GalleryForm from 'src/components/Admin/GalleryForm'
 
 export const QUERY = gql`
   query FIND_GALLERY_BY_ID($id: Int!) {
-    gallery: gallery(id: $id) {
+    gallery(id: $id) {
       id
       name
       createdAt
       iconImageURL
+      photos {
+        id
+        order
+        imageURL
+      }
     }
   }
 `
+
 const UPDATE_GALLERY_MUTATION = gql`
   mutation UpdateGalleryMutation($id: Int!, $input: UpdateGalleryInput!) {
     updateGallery(id: $id, input: $input) {
@@ -19,11 +25,20 @@ const UPDATE_GALLERY_MUTATION = gql`
       name
       createdAt
       iconImageURL
+      photos {
+        order
+      }
     }
   }
 `
 
 export const Loading = () => <div>Loading...</div>
+
+export const afterQuery = ({ gallery: { photos, ...props } }) => {
+  const cleanPhotos = photos.map(({ __typename, ...photo }) => ({ ...photo }))
+
+  return { gallery: { ...props, photos: cleanPhotos } }
+}
 
 export const Success = ({ gallery }) => {
   const { addMessage } = useFlash()
