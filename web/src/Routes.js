@@ -13,6 +13,11 @@ const Routes = () => {
   return (
     <Router>
       <Route
+        path="/gallery-upload"
+        page={GalleryUploadPage}
+        name="galleryUpload"
+      />
+      <Route
         path="/admin/photos/new"
         page={AdminNewPhotoPage}
         name="adminNewPhoto"
