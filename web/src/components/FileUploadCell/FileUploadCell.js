@@ -25,24 +25,18 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 export const Success = ({ authorizationRequest }) => {
 
   const [images, setImages] = useState([])
-  const imageNames = []
 
   const choosePhotos = (img) => {
-    let UUID = require("uuidjs");
-    let uuid = UUID.generate();
-    let uniqueImgName = uuid
-    imageNames.push(uniqueImgName.replace(/-/g, ""))
-    console.log(imageNames[0])
-
-    console.log("new image name:")
-    console.log(uniqueImgName.replace(/-/g, ""))
-
-    // Change the file name before setting
-    let uniqueImg = createFile(img, uniqueImgName.replace(/-/g, ""))
-    setImages([...images, uniqueImg])
+    setImages(img)
   }
 
-  const createFile = (bits, name) => {
+  const makeFileNameUnique = (file) => {
+    let UUID = require("uuidjs")
+    let uuid = UUID.generate()
+    return renameFile(file, uuid.replace(/-/g, ""))
+  }
+
+  const renameFile = (bits, name) => {
     try {
         // If this call fails, we go for Blob
         return new File(bits, name);
@@ -58,26 +52,30 @@ export const Success = ({ authorizationRequest }) => {
 
   const submitImage = () => {
     uploadPhotos()
-    alert("image submitted in FileUploadCell")
    }
 
-  const uploadPhotos = async() => {
-    //let binaryImage = new Blob([images[0][0]])
-    let sha1Image = await blobToSHA1(images[0])
+  const uploadPhotos = async() =>  {
 
-       const response = await fetch(authorizationRequest.backblazeUploadUrl, {
-          method: 'POST',
-          headers: new Headers({
-            Authorization: `${authorizationRequest.backblazeUploadAuthToken}`,
-            'X-Bz-File-Name': `${images[0].name}`,
-            'Content-Type': 'image/jpeg', //`${images[0][0]['type']}`,
-            'X-Bz-Content-Sha1': `${sha1Image}`,
-          }),
-          body: images[0],
-        })
-          let responseJson = await response.json()
-          console.log(responseJson)
-      }
+    for (let index = 0; index < images.length; index++) {
+      console.log(images[index])
+      let imageFile = makeFileNameUnique([images[index]])
+      let sha1Image = await blobToSHA1(imageFile)
+
+         const response = await fetch(authorizationRequest.backblazeUploadUrl, {
+            method: 'POST',
+            headers: new Headers({
+              Authorization: `${authorizationRequest.backblazeUploadAuthToken}`,
+              'X-Bz-File-Name': `${imageFile.name}`,
+              'Content-Type': `${images[index]['type']}`,
+              'X-Bz-Content-Sha1': `${sha1Image}`,
+            }),
+            body: imageFile,
+          })
+            let responseJson = await response.json()
+            console.log(responseJson)
+        }
+
+  }
 
   return<div>
 
