@@ -54,6 +54,11 @@ export const Success = ({ authorizationRequest }) => {
     uploadPhotos()
    }
 
+   const generateGallery = () => {
+     // Build a gallery object
+     // Build a set of photo objects that match the names for the uploaded images
+   }
+
   const uploadPhotos = async() =>  {
 
     for (let index = 0; index < images.length; index++) {
@@ -79,7 +84,6 @@ export const Success = ({ authorizationRequest }) => {
 
   return<div>
 
-  {JSON.stringify(authorizationRequest)}
   <p>FileUploadCell</p>
   <Button onClick={() => submitImage()}> Submit Image</Button>
 
