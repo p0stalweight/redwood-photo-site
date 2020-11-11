@@ -1,9 +1,9 @@
 import fetch from 'node-fetch'
 
-export const getAuthorizationRequest= async() => {
+export const getAuthorizationRequest = async() => {
   /* Initial authorization request */
   let keyID = 'eb0c3dc00973'
-  let key = '002f25d1bbbe810922e21b8b64ca0124cf163cf787'
+  let key = '002d65353f3fe0c91800c5105445799146fff7f1a3'
   let encoded = Buffer.from(`${keyID}:${key}`).toString('base64')
   let url = 'https://api.backblazeb2.com/b2api/v2/b2_authorize_account'
   const headers = {

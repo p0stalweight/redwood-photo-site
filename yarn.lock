@@ -5458,6 +5458,18 @@ bl@^4.0.3:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
+blob-to-hash@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/blob-to-hash/-/blob-to-hash-0.0.1.tgz#121d8738d40a77325ff47d22536702bc8559884d"
+  integrity sha512-V9N46n90/oa7U+GSYo1lZfPmn9DDVUP//eqy3jErzaTglI2o6SNsUtcNqfH79tBbUaVnx6XNJRGG8LTyb/hxCQ==
+
+blob-to-sha1@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/blob-to-sha1/-/blob-to-sha1-0.0.1.tgz#e3d8aa76fe9fd8b90f82f0e179215510a1840c9b"
+  integrity sha512-vYlTFopv7j+FT5lVPFkw1blPGHbF7WATMrtYDS7Jd4Mvaur5HXuUdGXzByZTIaWbMynthg2QQseLq4vzE6K8MQ==
+  dependencies:
+    blob-to-hash "^0.0.1"
+
 bluebird@^3.3.5, bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
@@ -10439,6 +10451,11 @@ jest@^26.4.2:
     import-local "^3.0.2"
     jest-cli "^26.6.1"
 
+js-sha1@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/js-sha1/-/js-sha1-0.6.0.tgz#adbee10f0e8e18aa07cdea807cf08e9183dbc7f9"
+  integrity sha512-01gwBFreYydzmU9BmZxpVk6svJJHrVxEN3IOiGl6VO93bVKYETJ0sIth6DASI6mIFdt7NmfX9UiByRzsYHGU9w==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -15371,6 +15388,11 @@ uuid@^8.0.0, uuid@^8.3.0:
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
   integrity sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
+
+uuidjs@^4.2.6:
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/uuidjs/-/uuidjs-4.2.6.tgz#6dccb3e45ccb351daf0be3f107c37911e369c810"
+  integrity sha512-MN+qOwkX8k2V4p+qDDUzHc1gvBu1tCCB2p3cjOdMoeGfTUywATUBcQkqqaFR7Snd72FAY7HfBzkoAv7HxoCxuA==
 
 v8-compile-cache@^2.0.3, v8-compile-cache@^2.1.1:
   version "2.1.1"
