@@ -57,6 +57,8 @@ export const Success = ({ authorizationRequest }) => {
    const generateGallery = () => {
      // Build a gallery object
      // Build a set of photo objects that match the names for the uploaded images
+     // Change for commit
+     console.log("gallery generated")
    }
 
   const uploadPhotos = async() =>  {
