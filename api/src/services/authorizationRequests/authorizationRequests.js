@@ -12,8 +12,6 @@ export const getAuthorizationRequest = async() => {
 
   const response = await fetch(url, {headers: headers})
   const authorizationJson = await response.json()
-  await console.log("/////  AUTH JSON  ////")
-  await console.log(authorizationJson)
 
   /* Request the upload url */
   let bucketId = 'ce0b002c732dcc2070490713'
@@ -23,8 +21,6 @@ export const getAuthorizationRequest = async() => {
 
   const uploadResponse = await fetch(uploadRequestUrl, {method: 'Post', headers: uploadRequestHeaders, body: uploadRequestBody})
   const uploadJson = await uploadResponse.json()
-  console.log("/////  UPLOAD JSON  ////")
-  console.log(uploadJson)
 
   return {
     authorizationToken: authorizationJson.authorizationToken,

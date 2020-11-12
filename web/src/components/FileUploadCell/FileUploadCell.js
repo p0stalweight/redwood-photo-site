@@ -1,9 +1,20 @@
+import { useMutation } from '@redwoodjs/web'
+import {
+  Form,
+  FormError,
+  FieldError,
+  Label,
+  TextField,
+  Submit,
+} from '@redwoodjs/forms'
+import GalleryForm from 'src/components/Admin/GalleryForm'
 import { Button } from "@chakra-ui/core"
 import  ImageUploader from 'react-images-upload'
 import { useState } from 'react'
 import sha1 from 'js-sha1'
 import blobToSHA1 from 'blob-to-sha1'
 import UUID from 'uuidjs'
+
 
 export const QUERY = gql`
   query {
@@ -55,9 +66,7 @@ export const Success = ({ authorizationRequest }) => {
    }
 
    const generateGallery = () => {
-     // Build a gallery object
-     // Build a set of photo objects that match the names for the uploaded images
-     // Change for commit
+    createGallery({ variables: { name: 'SampleGallery', iconImageURL: 'www.test.com', photos: [] } })
      console.log("gallery generated")
    }
 
@@ -84,20 +93,54 @@ export const Success = ({ authorizationRequest }) => {
 
   }
 
+  /* GALLERY MANAGEMENT */
+
+  const CREATE_GALLERY_MUTATION = gql`
+  mutation CreateGalleryMutation($input: CreateGalleryInput!) {
+    createGallery(input: $input) {
+      id
+    }
+  }
+`
+  const [createGallery, { loading, error }] = useMutation(
+    CREATE_GALLERY_MUTATION,
+    {
+      onCompleted: () => {
+        navigate(routes.adminGalleries())
+      },
+      // This refetches the query on the list page. Read more about other ways to
+      // update the cache over here:
+      // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
+      refetchQueries: [{ query: QUERY }],
+      awaitRefetchQueries: true,
+    }
+  )
+
+  const onSave = (input) => {
+    console.log(input)
+  }
+
   return<div>
+    <div className="rw-segment">
+      <header className="rw-segment-header">
+        <h2 className="rw-heading rw-heading-secondary">New Gallery</h2>
+      </header>
+      <div className="rw-segment-main">
+        <GalleryForm onSave={onSave} loading={loading} error={error} />
+      </div>
+    </div>
 
-  <p>FileUploadCell</p>
-  <Button onClick={() => submitImage()}> Submit Image</Button>
+    <ImageUploader
+          withIcon={false}
+          buttonText="Choose images"
+          onChange={choosePhotos}
+          imgExtension={['.jpg', '.gif', '.png', '.gif']}
+          maxFileSize={5242880}
+          withPreview={true}
+        />
 
-  <ImageUploader
-        withIcon={false}
-        buttonText="Choose images"
-        onChange={choosePhotos}
-        imgExtension={['.jpg', '.gif', '.png', '.gif']}
-        maxFileSize={5242880}
-        withPreview={true}
-      />
-
-  </div>
+      <Button onClick={() => submitImage()}> Submit Image</Button>
+      <Button onClick={() => generateGallery()}> Generate Gallery </Button>
+    </div>
 
 }
