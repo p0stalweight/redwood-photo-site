@@ -65,6 +65,29 @@ export const Success = ({ authorizationRequest }) => {
     uploadPhotos()
    }
 
+
+
+  /* GALLERY MANAGEMENT */
+   const CREATE_GALLERY_MUTATION = gql`
+  mutation CreateGalleryMutation($input: CreateGalleryInput!) {
+    createGallery(input: $input) {
+      id
+    }
+  }
+`
+  const [createGallery, { loading, error }] = useMutation(
+    CREATE_GALLERY_MUTATION,
+    {
+      onCompleted: () => {
+        navigate(routes.adminGalleries())
+      },
+      // This refetches the query on the list page. Read more about other ways to
+      // update the cache over here:
+      // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
+      refetchQueries: [{ query: QUERY }],
+      awaitRefetchQueries: true,
+    }
+  )
    const generateGallery = () => {
     createGallery({ variables: { name: 'SampleGallery', iconImageURL: 'www.test.com', photos: [] } })
      console.log("gallery generated")
@@ -93,28 +116,7 @@ export const Success = ({ authorizationRequest }) => {
 
   }
 
-  /* GALLERY MANAGEMENT */
 
-  const CREATE_GALLERY_MUTATION = gql`
-  mutation CreateGalleryMutation($input: CreateGalleryInput!) {
-    createGallery(input: $input) {
-      id
-    }
-  }
-`
-  const [createGallery, { loading, error }] = useMutation(
-    CREATE_GALLERY_MUTATION,
-    {
-      onCompleted: () => {
-        navigate(routes.adminGalleries())
-      },
-      // This refetches the query on the list page. Read more about other ways to
-      // update the cache over here:
-      // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
-      refetchQueries: [{ query: QUERY }],
-      awaitRefetchQueries: true,
-    }
-  )
 
   const onSave = (input) => {
     console.log(input)
