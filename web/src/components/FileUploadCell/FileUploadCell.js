@@ -65,8 +65,6 @@ export const Success = ({ authorizationRequest }) => {
     uploadPhotos()
    }
 
-
-
   /* GALLERY MANAGEMENT */
    const CREATE_GALLERY_MUTATION = gql`
   mutation CreateGalleryMutation($input: CreateGalleryInput!) {
@@ -74,6 +72,7 @@ export const Success = ({ authorizationRequest }) => {
       id
     }
   }
+
 `
   const [createGallery, { loading, error }] = useMutation(
     CREATE_GALLERY_MUTATION,
@@ -88,9 +87,10 @@ export const Success = ({ authorizationRequest }) => {
       awaitRefetchQueries: true,
     }
   )
-   const generateGallery = () => {
+
+  const generateGallery = () => {
     createGallery({ variables: { name: 'SampleGallery', iconImageURL: 'www.test.com', photos: [] } })
-     console.log("gallery generated")
+    console.log("gallery generated")
    }
 
   const uploadPhotos = async() =>  {
