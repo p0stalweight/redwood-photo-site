@@ -68,7 +68,7 @@ export const Success = ({ authorizationRequest }) => {
    }
 
   /* PHOTO MANAGEMENT */
-  /*const CREATE_PHOTO_MUTATION = gql`
+  const CREATE_PHOTO_MUTATION = gql`
   mutation CreatePhotoMutation($input: CreatePhotoInput!) {
     createPhoto(input: $input) {
       id
@@ -76,7 +76,6 @@ export const Success = ({ authorizationRequest }) => {
   }
 `
 
-const NewPhoto = () => {
   const [createPhoto] = useMutation(CREATE_PHOTO_MUTATION, {
     onCompleted: () => {
       console.log("photo created")
@@ -86,7 +85,7 @@ const NewPhoto = () => {
     awaitRefetchQueries: true,
   })
 
-  const onSave = (input) => {
+  /*const onSave = (input) => {
     const castInput = Object.assign(input, {
       galleryId: parseInt(input.galleryId),
     })
@@ -94,10 +93,11 @@ const NewPhoto = () => {
   }*/
   const generatePhotos = (galleryId) => {
     console.log(`generatePhotos: ${galleryId}`)
-    //for x in photoUrlNames {
-    //  const input ={ order: x+1, imageUrl: backblazeDownloadUrl + photoUrlNames[x], galleryId: galleryId }
-    //  createsPhoto({ variables: { input} })
-    //}
+    //for x in imageFileNames {
+    for (let index = 0; index < imageFileNames.length; index++) {
+      const input ={ order: index + 1, imageURL: authorizationRequest.backblazeDownloadUrl + '/' + imageFileNames[index], galleryId: galleryId }
+      createPhoto({ variables: { input} })
+    }
   }
 
   /* GALLERY MANAGEMENT */
@@ -125,18 +125,21 @@ const NewPhoto = () => {
   )
 
   const generateGallery = () => {
-    const input = { name: 'SampleGallery5', iconImageURL: 'www.test.com', photos: [] }
+    const input = { name: 'SampleGallery6', iconImageURL: 'www.test.com', photos: [] }
     createGallery({ variables: { input }})
     console.log("gallery generated")
    }
 
   const uploadPhotos = async() =>  {
+    let imageNames = []
+
     for (let index = 0; index < images.length; index++) {
       console.log(images[index])
 
       let imageFile = makeFileNameUnique([images[index]])
+      imageNames.push(imageFile.name)
+
       let sha1Image = await blobToSHA1(imageFile)
-      setImageFileNames(imageFileNames.concat(imageFile.name))
 
       const response = await fetch(authorizationRequest.backblazeUploadUrl, {
         method: 'POST',
@@ -152,6 +155,9 @@ const NewPhoto = () => {
         console.log(responseJson)
       }
 
+    setImageFileNames(imageNames)
+    console.log(imageFileNames)
+
   }
 
   const onSave = (input) => {
@@ -160,7 +166,6 @@ const NewPhoto = () => {
 
   const testFileNameArray = () => {
     console.log(imageFileNames)
-    setImageFileNames(imageFileNames.concat("test"))
   }
 
   return<div>
