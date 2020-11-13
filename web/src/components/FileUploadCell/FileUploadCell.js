@@ -37,6 +37,8 @@ export const Success = ({ authorizationRequest }) => {
 
   const [images, setImages] = useState([])
 
+  const [imageFileNames, setImageFileNames] = useState([])
+
   const choosePhotos = (img) => {
     setImages(img)
   }
@@ -65,6 +67,39 @@ export const Success = ({ authorizationRequest }) => {
     uploadPhotos()
    }
 
+  /* PHOTO MANAGEMENT */
+  /*const CREATE_PHOTO_MUTATION = gql`
+  mutation CreatePhotoMutation($input: CreatePhotoInput!) {
+    createPhoto(input: $input) {
+      id
+    }
+  }
+`
+
+const NewPhoto = () => {
+  const [createPhoto] = useMutation(CREATE_PHOTO_MUTATION, {
+    onCompleted: () => {
+      console.log("photo created")
+    },
+    // Refresh cache
+    refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
+  })
+
+  const onSave = (input) => {
+    const castInput = Object.assign(input, {
+      galleryId: parseInt(input.galleryId),
+    })
+    createPhoto({ variables: { input: castInput } })
+  }*/
+  const generatePhotos = (galleryId) => {
+    console.log(`generatePhotos: ${galleryId}`)
+    //for x in photoUrlNames {
+    //  const input ={ order: x+1, imageUrl: backblazeDownloadUrl + photoUrlNames[x], galleryId: galleryId }
+    //  createsPhoto({ variables: { input} })
+    //}
+  }
+
   /* GALLERY MANAGEMENT */
    const CREATE_GALLERY_MUTATION = gql`
   mutation CreateGalleryMutation($input: CreateGalleryInput!) {
@@ -77,8 +112,9 @@ export const Success = ({ authorizationRequest }) => {
   const [createGallery, { loading, error }] = useMutation(
     CREATE_GALLERY_MUTATION,
     {
-      onCompleted: () => {
-        navigate(routes.adminGalleries())
+      onCompleted: ({createGallery}) => {
+        console.log(createGallery.id)
+        generatePhotos(createGallery.id)
       },
       // This refetches the query on the list page. Read more about other ways to
       // update the cache over here:
@@ -89,37 +125,42 @@ export const Success = ({ authorizationRequest }) => {
   )
 
   const generateGallery = () => {
-    createGallery({ variables: { name: 'SampleGallery', iconImageURL: 'www.test.com', photos: [] } })
+    const input = { name: 'SampleGallery5', iconImageURL: 'www.test.com', photos: [] }
+    createGallery({ variables: { input }})
     console.log("gallery generated")
    }
 
   const uploadPhotos = async() =>  {
-
     for (let index = 0; index < images.length; index++) {
       console.log(images[index])
+
       let imageFile = makeFileNameUnique([images[index]])
       let sha1Image = await blobToSHA1(imageFile)
+      setImageFileNames(imageFileNames.concat(imageFile.name))
 
-         const response = await fetch(authorizationRequest.backblazeUploadUrl, {
-            method: 'POST',
-            headers: new Headers({
-              Authorization: `${authorizationRequest.backblazeUploadAuthToken}`,
-              'X-Bz-File-Name': `${imageFile.name}`,
-              'Content-Type': `${images[index]['type']}`,
-              'X-Bz-Content-Sha1': `${sha1Image}`,
-            }),
-            body: imageFile,
-          })
-            let responseJson = await response.json()
-            console.log(responseJson)
-        }
+      const response = await fetch(authorizationRequest.backblazeUploadUrl, {
+        method: 'POST',
+        headers: new Headers({
+          Authorization: `${authorizationRequest.backblazeUploadAuthToken}`,
+          'X-Bz-File-Name': `${imageFile.name}`,
+          'Content-Type': `${images[index]['type']}`,
+          'X-Bz-Content-Sha1': `${sha1Image}`,
+        }),
+          body: imageFile,
+      })
+        let responseJson = await response.json()
+        console.log(responseJson)
+      }
 
   }
 
-
-
   const onSave = (input) => {
     console.log(input)
+  }
+
+  const testFileNameArray = () => {
+    console.log(imageFileNames)
+    setImageFileNames(imageFileNames.concat("test"))
   }
 
   return<div>
@@ -143,6 +184,7 @@ export const Success = ({ authorizationRequest }) => {
 
       <Button onClick={() => submitImage()}> Submit Image</Button>
       <Button onClick={() => generateGallery()}> Generate Gallery </Button>
+      <Button onClick={() => testFileNameArray()}> Test File name array after upload</Button>
     </div>
 
 }
