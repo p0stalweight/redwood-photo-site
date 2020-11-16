@@ -5,8 +5,6 @@ const GalleryUploadPage = () => {
 
   return (
     <>
-      <h1>GalleryUploadPage</h1>
-
       { <FileUploadCell/> }
     </>
   )

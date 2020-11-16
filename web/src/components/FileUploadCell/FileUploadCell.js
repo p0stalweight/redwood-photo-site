@@ -61,11 +61,7 @@ export const Success = ({ authorizationRequest }) => {
         myBlob.name = name;
         return myBlob;
     }
-}
-
-  const submitImage = () => {
-    uploadPhotos()
-   }
+  }
 
   /* PHOTO MANAGEMENT */
   const CREATE_PHOTO_MUTATION = gql`
@@ -85,15 +81,9 @@ export const Success = ({ authorizationRequest }) => {
     awaitRefetchQueries: true,
   })
 
-  /*const onSave = (input) => {
-    const castInput = Object.assign(input, {
-      galleryId: parseInt(input.galleryId),
-    })
-    createPhoto({ variables: { input: castInput } })
-  }*/
   const generatePhotos = (galleryId) => {
     console.log(`generatePhotos: ${galleryId}`)
-    //for x in imageFileNames {
+
     for (let index = 0; index < imageFileNames.length; index++) {
       const input ={ order: index + 1, imageURL: authorizationRequest.backblazeDownloadUrl + '/' + imageFileNames[index], galleryId: galleryId }
       createPhoto({ variables: { input} })
@@ -116,17 +106,20 @@ export const Success = ({ authorizationRequest }) => {
         console.log(createGallery.id)
         generatePhotos(createGallery.id)
       },
-      // This refetches the query on the list page. Read more about other ways to
-      // update the cache over here:
-      // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
       refetchQueries: [{ query: QUERY }],
       awaitRefetchQueries: true,
     }
   )
 
-  const generateGallery = () => {
+  const submitGallery = async() => {
+    // Send photos to Backblaze
+    await uploadPhotos()
+
+    // Wait until the above calls are done before making the gallery
+
+    // Add the gallery to database
     const input = { name: 'SampleGallery6', iconImageURL: 'www.test.com', photos: [] }
-    createGallery({ variables: { input }})
+    await createGallery({ variables: { input }})
     console.log("gallery generated")
    }
 
@@ -160,36 +153,44 @@ export const Success = ({ authorizationRequest }) => {
 
   }
 
-  const onSave = (input) => {
-    console.log(input)
+  const onSubmit = (data) => {
+    console.log(data)
   }
 
-  const testFileNameArray = () => {
-    console.log(imageFileNames)
-  }
 
-  return<div>
-    <div className="rw-segment">
+  return<div className="rw-segment">
       <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">New Gallery</h2>
+        <h2 className="rw-heading rw-heading">New Gallery</h2>
       </header>
       <div className="rw-segment-main">
-        <GalleryForm onSave={onSave} loading={loading} error={error} />
+        <Form onSubmit={onSubmit}>
+          <Label name="Gallery Name" />
+          <TextField name="Gallery Name" errorClassName= "error" validation={{ required: true }} />
+          <FieldError name="Gallery Name"/>
+
+          <Label name="Location" />
+          <TextField name="Location" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError name="Location"/>
+
+          <Label name="Month" />
+          <TextField name="Month" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError name="Month"/>
+
+          <Label name="Year" />
+          <TextField name="Year" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError name="Year"/>
+
+          <ImageUploader
+              withIcon={false}
+              buttonText="Choose images"
+              onChange={choosePhotos}
+              imgExtension={['.jpg', '.gif', '.png', '.gif']}
+              maxFileSize={5242880}
+              withPreview={true}
+            />
+            <Submit>Add Gallery</Submit>
+        </Form>
       </div>
+      <Button onClick={() => submitGallery()}> Add Gallery </Button>
     </div>
-
-    <ImageUploader
-          withIcon={false}
-          buttonText="Choose images"
-          onChange={choosePhotos}
-          imgExtension={['.jpg', '.gif', '.png', '.gif']}
-          maxFileSize={5242880}
-          withPreview={true}
-        />
-
-      <Button onClick={() => submitImage()}> Submit Image</Button>
-      <Button onClick={() => generateGallery()}> Generate Gallery </Button>
-      <Button onClick={() => testFileNameArray()}> Test File name array after upload</Button>
-    </div>
-
 }
