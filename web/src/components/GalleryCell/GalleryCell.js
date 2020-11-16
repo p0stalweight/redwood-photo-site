@@ -8,9 +8,9 @@ import {
 } from '@chakra-ui/core'
 
 export const QUERY = gql`
-  query GalleryQuery($id: Int!) {
-    gallery: galleryWithPhotos(id: $id) {
-      id
+  query GALLERY($id: Int!) {
+    gallery(id: $id) {
+      galleryId: id
       name
       photos {
         imageURL
@@ -26,7 +26,7 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ gallery: { id: galleryId, name, photos } }) => {
+export const Success = ({ gallery: { galleryId, name, photos } }) => {
   return (
     <>
       <Center>
