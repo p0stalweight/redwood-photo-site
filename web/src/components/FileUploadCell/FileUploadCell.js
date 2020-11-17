@@ -39,6 +39,7 @@ export const Success = ({ authorizationRequest }) => {
 
   const [imageFileNames, setImageFileNames] = useState([])
 
+  let imageFileNamesTemp = []
   const choosePhotos = (img) => {
     setImages(img)
   }
@@ -84,9 +85,11 @@ export const Success = ({ authorizationRequest }) => {
 
   const generatePhotos = (galleryId) => {
     console.log(`generatePhotos: ${galleryId}`)
-    console.log("image file names: " + imageFileNames)
-
+    console.log("imageFileNames array:")
+    console.log(imageFileNames)
     for (let index = 0; index < imageFileNames.length; index++) {
+      console.log("Image names during photo object creation:")
+      console.log(imageFileNames[index])
       const input ={ order: index + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNames[index], galleryId: galleryId }
       createPhoto({ variables: { input} })
     }
@@ -113,12 +116,26 @@ export const Success = ({ authorizationRequest }) => {
     }
   )
 
+  const submitGallery = async(formData) => {
+    // Send photos to Backblaze
+    if (images.length < 1) {
+      console.log("No photos to upload, cancelled")
+      return
+    }
+    await uploadPhotos()
+
+    // Add the gallery to database
+    await console.log("gallery image: " + `${imageFileNamesTemp[0]}`)
+    const input = { name: `${formData.['Gallery Name']}`, iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNamesTemp[0]}`, photos: [] }
+    await createGallery({ variables: { input }})
+    console.log("gallery generated")
+   }
+
+  /* Upload to Backblaze */
   const uploadPhotos = async() =>  {
     let imageNames = []
 
     for (let index = 0; index < images.length; index++) {
-      console.log(images[index])
-
       let imageFile = makeFileNameUnique([images[index]])
       imageNames.push(imageFile.name)
 
@@ -137,33 +154,16 @@ export const Success = ({ authorizationRequest }) => {
         let responseJson = await response.json()
         console.log(responseJson)
       }
+    setImageFileNames(imageFileNames.concat(imageNames))
+    imageFileNamesTemp = imageNames
 
-    setImageFileNames(imageNames)
-    console.log("image names" + imageNames)
-    console.log(imageFileNames)
   }
 
+  /* Form Submission */
   const onSubmit = (formData) => {
     console.log(formData)
     submitGallery(formData)
   }
-
-    const submitGallery = async(formData) => {
-    // Send photos to Backblaze
-    if (images.length < 1) {
-      console.log("No photos to upload, cancelled")
-      return
-    }
-
-    await uploadPhotos()
-
-    // Add the gallery to database
-    console.log("gallery image: " + `${imageFileNames[0]}`)
-    const input = { name: `${formData.['Gallery Name']}`, iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNames[0]}`, photos: [] }
-    await createGallery({ variables: { input }})
-    console.log("gallery generated")
-   }
-
 
   return<div className="rw-segment">
       <header className="rw-segment-header">
