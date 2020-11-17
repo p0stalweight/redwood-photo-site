@@ -43,6 +43,7 @@ export const Success = ({ authorizationRequest }) => {
     setImages(img)
   }
 
+  /* IMAGE FILE MANIPULATION */
   const makeFileNameUnique = (file) => {
     let UUID = require("uuidjs")
     let uuid = UUID.generate()
@@ -63,7 +64,7 @@ export const Success = ({ authorizationRequest }) => {
     }
   }
 
-  /* PHOTO MANAGEMENT */
+  /* PHOTO CREATION */
   const CREATE_PHOTO_MUTATION = gql`
   mutation CreatePhotoMutation($input: CreatePhotoInput!) {
     createPhoto(input: $input) {
@@ -83,14 +84,15 @@ export const Success = ({ authorizationRequest }) => {
 
   const generatePhotos = (galleryId) => {
     console.log(`generatePhotos: ${galleryId}`)
+    console.log("image file names: " + imageFileNames)
 
     for (let index = 0; index < imageFileNames.length; index++) {
-      const input ={ order: index + 1, imageURL: authorizationRequest.backblazeDownloadUrl + '/' + imageFileNames[index], galleryId: galleryId }
+      const input ={ order: index + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNames[index], galleryId: galleryId }
       createPhoto({ variables: { input} })
     }
   }
 
-  /* GALLERY MANAGEMENT */
+  /* GALLERY CREATION */
    const CREATE_GALLERY_MUTATION = gql`
   mutation CreateGalleryMutation($input: CreateGalleryInput!) {
     createGallery(input: $input) {
@@ -110,18 +112,6 @@ export const Success = ({ authorizationRequest }) => {
       awaitRefetchQueries: true,
     }
   )
-
-  const submitGallery = async() => {
-    // Send photos to Backblaze
-    await uploadPhotos()
-
-    // Wait until the above calls are done before making the gallery
-
-    // Add the gallery to database
-    const input = { name: 'SampleGallery6', iconImageURL: 'www.test.com', photos: [] }
-    await createGallery({ variables: { input }})
-    console.log("gallery generated")
-   }
 
   const uploadPhotos = async() =>  {
     let imageNames = []
@@ -149,36 +139,56 @@ export const Success = ({ authorizationRequest }) => {
       }
 
     setImageFileNames(imageNames)
+    console.log("image names" + imageNames)
     console.log(imageFileNames)
-
   }
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit = (formData) => {
+    console.log(formData)
+    submitGallery(formData)
   }
+
+    const submitGallery = async(formData) => {
+    // Send photos to Backblaze
+    if (images.length < 1) {
+      console.log("No photos to upload, cancelled")
+      return
+    }
+
+    await uploadPhotos()
+
+    // Add the gallery to database
+    console.log("gallery image: " + `${imageFileNames[0]}`)
+    const input = { name: `${formData.['Gallery Name']}`, iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNames[0]}`, photos: [] }
+    await createGallery({ variables: { input }})
+    console.log("gallery generated")
+   }
 
 
   return<div className="rw-segment">
       <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading">New Gallery</h2>
+        <h2 className="rw-heading rw-heading" style ={{ textAlign: 'center' }}>New Gallery</h2>
       </header>
+
       <div className="rw-segment-main">
-        <Form onSubmit={onSubmit}>
-          <Label name="Gallery Name" />
+
+        <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
+
+          <Label errorClassName= "error" name="Gallery Name" />
           <TextField name="Gallery Name" errorClassName= "error" validation={{ required: true }} />
-          <FieldError name="Gallery Name"/>
+          <FieldError style={{color: 'red'}} name="Gallery Name"/>
 
-          <Label name="Location" />
+          <Label errorClassName= "error" name="Location" />
           <TextField name="Location" errorClassName= "error" validation={{ required: true }}  />
-          <FieldError name="Location"/>
+          <FieldError style={{color: 'red'}}  name="Location"/>
 
-          <Label name="Month" />
+          <Label errorClassName= "error" name="Month" />
           <TextField name="Month" errorClassName= "error" validation={{ required: true }}  />
-          <FieldError name="Month"/>
+          <FieldError style={{color: 'red'}}  name="Month"/>
 
-          <Label name="Year" />
+          <Label errorClassName= "error" name="Year" />
           <TextField name="Year" errorClassName= "error" validation={{ required: true }}  />
-          <FieldError name="Year"/>
+          <FieldError style={{color: 'red'}}  name="Year"/>
 
           <ImageUploader
               withIcon={false}
@@ -189,8 +199,8 @@ export const Success = ({ authorizationRequest }) => {
               withPreview={true}
             />
             <Submit>Add Gallery</Submit>
+
         </Form>
       </div>
-      <Button onClick={() => submitGallery()}> Add Gallery </Button>
     </div>
 }
