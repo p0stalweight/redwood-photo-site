@@ -40,6 +40,7 @@ export const Success = ({ authorizationRequest }) => {
   const [imageFileNames, setImageFileNames] = useState([])
 
   let imageFileNamesTemp = []
+
   const choosePhotos = (img) => {
     setImages(img)
   }
@@ -87,12 +88,16 @@ export const Success = ({ authorizationRequest }) => {
     console.log(`generatePhotos: ${galleryId}`)
     console.log("imageFileNames array:")
     console.log(imageFileNames)
+
     for (let index = 0; index < imageFileNames.length; index++) {
       console.log("Image names during photo object creation:")
       console.log(imageFileNames[index])
-      const input ={ order: index + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNames[index], galleryId: galleryId }
+
+      const input = { order: index + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNames[index], galleryId: galleryId }
+
       createPhoto({ variables: { input} })
     }
+
   }
 
   /* GALLERY CREATION */
@@ -122,13 +127,15 @@ export const Success = ({ authorizationRequest }) => {
       console.log("No photos to upload, cancelled")
       return
     }
-    await uploadPhotos()
+
+    await uploadPhotos() // return array of photo names for use in createGallery
 
     // Add the gallery to database
-    await console.log("gallery image: " + `${imageFileNamesTemp[0]}`)
     const input = { name: `${formData.['Gallery Name']}`, iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNamesTemp[0]}`, photos: [] }
     await createGallery({ variables: { input }})
     console.log("gallery generated")
+
+    // TODO: Navigate to the manage galleries
    }
 
   /* Upload to Backblaze */
@@ -153,7 +160,8 @@ export const Success = ({ authorizationRequest }) => {
       })
         let responseJson = await response.json()
         console.log(responseJson)
-      }
+     }
+
     setImageFileNames(imageFileNames.concat(imageNames))
     imageFileNamesTemp = imageNames
 
