@@ -123,6 +123,8 @@ export const Success = ({ authorizationRequest }) => {
 
   const submitGallery = async(formData) => {
     // Send photos to Backblaze
+    console.log("Upload disabled")
+    return
     if (images.length < 1) {
       console.log("No photos to upload, cancelled")
       return
