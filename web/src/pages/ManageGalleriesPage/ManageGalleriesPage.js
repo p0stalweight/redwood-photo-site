@@ -1,25 +1,31 @@
-import { Link, routes } from '@redwoodjs/router'
-import GalleryCell from 'src/components/GalleryCell'
+import {
+  Container,
+  Box,
+  Image,
+  Heading,
+  Flex,
+  useDisclosure,
+  Link,
+} from '@chakra-ui/core'
+import { routes } from '@redwoodjs/router'
 import GalleriesCell from 'src/components/GalleriesCell'
 
-const GalleryManagePage = () => {
+const ManageGalleriesPage = () => {
   return (
     <>
       <h1 style ={{ textAlign: 'center', fontSize: '40px' }}>Manage Galleries</h1>
 
-      <p>
-        Make a new gallery: <br/>
-        <Link to={routes.galleryUpload()}>Gallery Upload</Link>
-      </p>
-
-      <GalleriesCell />
-
-      <p>
-        STUB: Display grid of gallery thumbnails with delete buttons that link to edit gallery page
-      </p>
+      <Container maxW="xl">
+        <p>
+          Make a new gallery: <br/>
+          <Link to={routes.galleryUpload()}>Gallery Upload</Link>
+        </p>
+        <p>Choose an existing gallery:</p>
+        <GalleriesCell />
+      </Container>
 
     </>
   )
 }
 
-export default GalleryManagePage
+export default ManageGalleriesPage

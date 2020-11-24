@@ -1,8 +1,8 @@
 import { render } from '@redwoodjs/testing'
 
-import GalleryManagePage from './GalleryManagePage'
+import GalleryManagePage from './ManageGalleriesPage'
 
-describe('GalleryManagePage', () => {
+describe('ManageGalleriesPage', () => {
   it('renders successfully', () => {
     expect(() => {
       render(<GalleryManagePage />)

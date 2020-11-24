@@ -1,7 +1,7 @@
-import GalleryManagePage from './GalleryManagePage'
+import ManageGalleriesPage from './ManageGalleriesPage'
 
 export const generated = () => {
-  return <GalleryManagePage />
+  return <ManageGalleriesPage />
 }
 
-export default { title: 'Pages/GalleryManagePage' }
+export default { title: 'Pages/ManageGalleriesPage' }

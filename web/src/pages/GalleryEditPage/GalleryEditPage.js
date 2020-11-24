@@ -1,5 +1,5 @@
 import { Link, routes } from '@redwoodjs/router'
-import FileUploadCell from 'src/components/FileUploadCell'
+import FileUploadCell from 'src/components/GalleryUploadCell'
 
 const GalleryEditPage = () => {
   return (
@@ -9,7 +9,7 @@ const GalleryEditPage = () => {
         This page will closely mirror the Gallery-Upload page
       </p>
 
-      <FileUploadCell/>
+      <GalleryUploadCell/>
 
       <p>
         My default route is named <code>galleryEdit</code>, link to me with `
