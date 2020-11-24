@@ -13,7 +13,7 @@ const Routes = () => {
   return (
     <Router>
       <Route path="/gallery-edit" page={GalleryEditPage} name="galleryEdit" />
-      <Route path="/gallery-manage" page={GalleryManagePage} name="galleryManage" />
+      <Route path="/manage-galleries" page={ManageGalleriesPage} name="manageGalleries" />
       <Route
         path="/gallery-upload"
         page={GalleryUploadPage}
