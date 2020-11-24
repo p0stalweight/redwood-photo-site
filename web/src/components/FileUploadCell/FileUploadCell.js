@@ -206,7 +206,8 @@ export const Success = ({ authorizationRequest }) => {
               maxFileSize={5242880}
               withPreview={true}
             />
-            <Submit>Add Gallery</Submit>
+
+          <Submit>Add Gallery</Submit>
 
         </Form>
       </div>
