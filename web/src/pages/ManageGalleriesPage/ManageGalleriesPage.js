@@ -1,29 +1,34 @@
 import {
   Container,
   Box,
+  Button,
   Image,
   Heading,
   Flex,
   useDisclosure,
   Link,
 } from '@chakra-ui/core'
-import { routes } from '@redwoodjs/router'
-import GalleriesCell from 'src/components/GalleriesCell'
+import { routes, navigate } from '@redwoodjs/router'
+import GalleriesEditCell from 'src/components/GallerieseditCell'
 
 const ManageGalleriesPage = () => {
+  const toUpload = () => {
+    navigate(routes.adminGalleryUpload())
+  }
   return (
     <>
-      <h1 style ={{ textAlign: 'center', fontSize: '40px' }}>Manage Galleries</h1>
-
-      <Container maxW="xl">
-        <p>
-          Make a new gallery: <br/>
-          <Link to={routes.galleryUpload()}>Gallery Upload</Link>
-        </p>
-        <p>Choose an existing gallery:</p>
-        <GalleriesCell />
+      <Container padding ="10" backgroundColor='#79BDBD' color="white">
+        <h1 style ={{ textAlign: 'center', fontSize: '40px' }}>Manage Galleries</h1>
       </Container>
-
+      <Container maxW="xl">
+        <Box padding ="4">
+         <Button onClick={ toUpload }>Add a new gallery</Button>
+        </Box>
+        <Box padding ="4">
+          <p>Edit an existing gallery:</p>
+        </Box>
+        <GalleriesEditCell />
+      </Container>
     </>
   )
 }

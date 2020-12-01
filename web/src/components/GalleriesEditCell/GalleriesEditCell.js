@@ -18,7 +18,7 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ galleries }) => {
+export const Success = ({ galleriesEdit }) => {
   return (
     <SimpleGrid columns={[1, 2, 3]} spacing={4} mt={8}>
       {galleries.map((props) => (
