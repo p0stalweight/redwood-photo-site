@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import { requireAuth } from 'src/lib/auth'
 
 const foreignKeyReplacement = (input) => {
   let output = input
@@ -34,12 +35,14 @@ export const photoByGalleryIdAndOrder = ({ galleryId, order }) => {
 }
 
 export const createPhoto = ({ input }) => {
+  requireAuth()
   return db.photo.create({
     data: foreignKeyReplacement(input),
   })
 }
 
 export const updatePhoto = ({ id, input }) => {
+  requireAuth()
   return db.photo.update({
     data: foreignKeyReplacement(input),
     where: { id },
@@ -47,6 +50,7 @@ export const updatePhoto = ({ id, input }) => {
 }
 
 export const deletePhoto = ({ id }) => {
+  requireAuth()
   return db.photo.delete({
     where: { id },
   })

@@ -15,11 +15,13 @@
   "dependencies": {
     "@chakra-ui/core": "^1.0.0-rc.5",
     "@chakra-ui/icons": "^1.0.0-rc.8",
+    "@redwoodjs/auth": "^0.21.0",
     "@redwoodjs/forms": "^0.20.0",
     "@redwoodjs/router": "^0.20.0",
     "@redwoodjs/web": "^0.20.0",
     "blob-to-sha1": "^0.0.1",
     "js-sha1": "^0.6.0",
+    "netlify-identity-widget": "^1.9.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dnd": "^11.1.3",

@@ -1,8 +1,8 @@
 import { render, screen } from '@redwoodjs/testing'
-import { Loading, Empty, Failure, Success } from './FileUploadCell'
-import { standard } from './FileUploadCell.mock'
+import { Loading, Empty, Failure, Success } from './GalleriesEditCell'
+import { standard } from './GalleriesEditCell.mock'
 
-describe('FileUploadCell', () => {
+describe('GalleriesEditCell', () => {
   test('Loading renders successfully', () => {
     render(<Loading />)
     // Use screen.debug() to see output
@@ -20,7 +20,7 @@ describe('FileUploadCell', () => {
   })
 
   test('Success renders successfully', async () => {
-    render(<Success fileUpload={standard().fileUpload} />)
+    render(<Success galleriesEdit={standard().galleriesEdit} />)
     expect(screen.getByText(/42/i)).toBeInTheDocument()
   })
 })

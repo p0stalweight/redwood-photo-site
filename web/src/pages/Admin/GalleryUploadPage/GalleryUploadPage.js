@@ -1,11 +1,11 @@
 import { Link, routes } from '@redwoodjs/router'
-import FileUploadCell from 'src/components/FileUploadCell'
+import GalleryUploadCell from 'src/components/GalleryUploadCell'
 
 const GalleryUploadPage = () => {
 
   return (
     <>
-      { <FileUploadCell/> }
+      { <GalleryUploadCell/> }
     </>
   )
 }

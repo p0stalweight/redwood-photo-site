@@ -1,5 +1,11 @@
 import { useMutation } from '@redwoodjs/web'
 import {
+  navigate,
+  routes,
+  Router,
+  Routes
+} from '@redwoodjs/router'
+import {
   Form,
   FormError,
   FieldError,
@@ -135,7 +141,8 @@ export const Success = ({ authorizationRequest }) => {
     await createGallery({ variables: { input }})
     console.log("gallery generated")
 
-    // TODO: Navigate to the manage galleries
+    // TODO: Navigate to the manage galleries<Link as={RWLink} to={routes.home()} mr={6}>
+    navigate(routes.manageGalleries())
    }
 
   /* Upload to Backblaze */
@@ -206,7 +213,8 @@ export const Success = ({ authorizationRequest }) => {
               maxFileSize={5242880}
               withPreview={true}
             />
-            <Submit>Add Gallery</Submit>
+
+          <Submit>Add Gallery</Submit>
 
         </Form>
       </div>
