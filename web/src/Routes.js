@@ -12,49 +12,51 @@ import { Router, Route } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
-      <Route path="/gallery-edit" page={GalleryEditPage} name="galleryEdit" />
-      <Route path="/manage-galleries" page={ManageGalleriesPage} name="manageGalleries" />
-      <Route
-        path="/gallery-upload"
-        page={GalleryUploadPage}
-        name="galleryUpload"
-      />
-      <Route
-        path="/admin/photos/new"
-        page={AdminNewPhotoPage}
-        name="adminNewPhoto"
-      />
-      <Route
-        path="/admin/photos/{id:Int}/edit"
-        page={AdminEditPhotoPage}
-        name="adminEditPhoto"
-      />
-      <Route
-        path="/admin/photos/{id:Int}"
-        page={AdminPhotoPage}
-        name="adminPhoto"
-      />
-      <Route path="/admin/photos" page={AdminPhotosPage} name="adminPhotos" />
-      <Route
-        path="/admin/galleries/new"
-        page={AdminNewGalleryPage}
-        name="adminNewGallery"
-      />
-      <Route
-        path="/admin/galleries/{id:Int}/edit"
-        page={AdminEditGalleryPage}
-        name="adminEditGallery"
-      />
-      <Route
-        path="/admin/galleries/{id:Int}"
-        page={AdminGalleryPage}
-        name="adminGallery"
-      />
-      <Route
-        path="/admin/galleries"
-        page={AdminGalleriesPage}
-        name="adminGalleries"
-      />
+      <Private unauthenticated="home">
+        <Route path="/gallery-edit" page={GalleryEditPage} name="galleryEdit" />
+        <Route path="/manage-galleries" page={ManageGalleriesPage} name="manageGalleries" />
+        <Route
+          path="/admin/gallery-upload"
+          page={GalleryUploadPage}
+          name="galleryUpload"
+        />
+        <Route
+          path="/admin/photos/new"
+          page={AdminNewPhotoPage}
+          name="adminNewPhoto"
+        />
+        <Route
+          path="/admin/photos/{id:Int}/edit"
+          page={AdminEditPhotoPage}
+          name="adminEditPhoto"
+        />
+        <Route
+          path="/admin/photos/{id:Int}"
+          page={AdminPhotoPage}
+          name="adminPhoto"
+        />
+        <Route path="/admin/photos" page={AdminPhotosPage} name="adminPhotos" />
+        <Route
+          path="/admin/galleries/new"
+          page={AdminNewGalleryPage}
+          name="adminNewGallery"
+        />
+        <Route
+          path="/admin/galleries/{id:Int}/edit"
+          page={AdminEditGalleryPage}
+          name="adminEditGallery"
+        />
+        <Route
+          path="/admin/galleries/{id:Int}"
+          page={AdminGalleryPage}
+          name="adminGallery"
+        />
+        <Route
+          path="/admin/galleries"
+          page={AdminGalleriesPage}
+          name="adminGalleries"
+        />
+      </Private>
       <Route path="/" page={HomePage} name="home" />
       <Route path="/about" page={AboutPage} name="about" />
       <Route path="/contact" page={ContactPage} name="contact" />
