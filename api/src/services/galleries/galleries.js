@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import { requireAuth } from 'src/lib/auth'
 
 export const galleries = () => {
   return db.gallery.findMany()
@@ -11,6 +12,7 @@ export const gallery = ({ id }) => {
 }
 
 export const createGallery = ({ input }) => {
+  requireAuth()
   return db.gallery.create({
     data: input,
   })
@@ -18,6 +20,7 @@ export const createGallery = ({ input }) => {
 
 export const updateGallery = ({ id, input }) => {
   // format photos for nested write
+  requireAuth()
   const photos = {
     update: input.photos.map(({ order, id }) => ({
       data: { order },
@@ -32,6 +35,7 @@ export const updateGallery = ({ id, input }) => {
 }
 
 export const deleteGallery = ({ id }) => {
+  requireAuth()
   return db.gallery.delete({
     where: { id },
   })
