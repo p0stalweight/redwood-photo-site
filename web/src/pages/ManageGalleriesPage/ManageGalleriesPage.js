@@ -9,7 +9,7 @@ import {
   Link,
 } from '@chakra-ui/core'
 import { routes, navigate } from '@redwoodjs/router'
-import GalleriesEditCell from 'src/components/GallerieseditCell'
+import GalleriesEditCell from 'src/components/GalleriesEditCell'
 
 const ManageGalleriesPage = () => {
   const toUpload = () => {
