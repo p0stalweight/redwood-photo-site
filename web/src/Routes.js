@@ -7,7 +7,7 @@
 // 'src/pages/HomePage/HomePage.js'         -> HomePage
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
-import { Router, Route } from '@redwoodjs/router'
+import { Router, Route, Private } from '@redwoodjs/router'
 
 const Routes = () => {
   return (
@@ -17,8 +17,8 @@ const Routes = () => {
         <Route path="/manage-galleries" page={ManageGalleriesPage} name="manageGalleries" />
         <Route
           path="/admin/gallery-upload"
-          page={GalleryUploadPage}
-          name="galleryUpload"
+          page={AdminGalleryUploadPage}
+          name="adminGalleryUpload"
         />
         <Route
           path="/admin/photos/new"
