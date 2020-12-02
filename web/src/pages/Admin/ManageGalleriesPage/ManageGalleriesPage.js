@@ -13,7 +13,7 @@ import GalleriesEditCell from 'src/components/GalleriesEditCell'
 
 const ManageGalleriesPage = () => {
   const toUpload = () => {
-    navigate(routes.adminGalleryUpload())
+    navigate(routes.galleryUpload())
   }
   return (
     <>

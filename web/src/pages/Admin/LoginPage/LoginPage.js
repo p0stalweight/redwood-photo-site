@@ -5,7 +5,7 @@ import { useAuth } from '@redwoodjs/auth'
 const LoginPage = () => {
   const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
   const toGalleries = () => {
-    navigate(routes.manageGalleries())
+    navigate(routes.adminManageGalleries())
   }
   return (
     <>
