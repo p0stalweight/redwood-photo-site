@@ -135,13 +135,15 @@ export const Success = ({ authorizationRequest }) => {
     }
 
     await uploadPhotos() // return array of photo names for use in createGallery
-
+    console.log("just prior to gallery creation")
     // Add the gallery to database
-    const input = { name: `${formData.['Gallery Name']}`, iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNamesTemp[0]}`, photos: [] }
+
+    let today = new Date('02 December 2020')
+    let testDate = today.toISOString()
+    const input = { name: `${formData.['Gallery Name']}`, latitude: 20.4, longitude: 20.5, tripDate: `${testDate}` , iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNamesTemp[0]}`, photos: [] }
     await createGallery({ variables: { input }})
     console.log("gallery generated")
 
-    // TODO: Navigate to the manage galleries<Link as={RWLink} to={routes.home()} mr={6}>
     navigate(routes.manageGalleries())
    }
 
@@ -193,9 +195,13 @@ export const Success = ({ authorizationRequest }) => {
           <TextField name="Gallery Name" errorClassName= "error" validation={{ required: true }} />
           <FieldError style={{color: 'red'}} name="Gallery Name"/>
 
-          <Label errorClassName= "error" name="Location" />
-          <TextField name="Location" errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="Location"/>
+          <Label errorClassName= "error" name="Latitude" />
+          <TextField name="Latitude" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="Latitude"/>
+
+          <Label errorClassName= "error" name="Longitude" />
+          <TextField name="Longitude" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="Longitude"/>
 
           <Label errorClassName= "error" name="Month" />
           <TextField name="Month" errorClassName= "error" validation={{ required: true }}  />

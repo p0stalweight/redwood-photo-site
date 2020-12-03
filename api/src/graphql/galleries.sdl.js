@@ -15,6 +15,9 @@ export const schema = gql`
 
   input CreateGalleryInput {
     name: String!
+    tripDate: DateTime!
+    latitude: Float!
+    longitude: Float!
     iconImageURL: String!
     photos: [CreatePhotoInput!]
   }

@@ -1,6 +1,3 @@
 # Prisma Migrate lockfile v1
 
-20201007190726-create-galleries
-20201019203257-migration
-20201104205440-remove-unique-gallery-id-photo-order-constraint
-20201104205523-remove-unique-gallery-id-photo-order-constraint
+20201202214007-migration
