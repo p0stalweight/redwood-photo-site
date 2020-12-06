@@ -15,7 +15,6 @@ export const schema = gql`
 
   input CreateGalleryInput {
     name: String!
-    iconImageURL: String!
     photos: [CreatePhotoInput!]
   }
 

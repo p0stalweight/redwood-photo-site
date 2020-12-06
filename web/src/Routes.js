@@ -14,8 +14,16 @@ const Routes = () => {
     <Router>
       <Route path="/admin/login" page={AdminLoginPage} name="login" />
       <Private unauthenticated="home">
-        <Route path="/admin/gallery-edit" page={AdminGalleryEditPage} name="galleryEdit" />
-        <Route path="/admin/manage-galleries" page={AdminManageGalleriesPage} name="manageGalleries" />
+        <Route
+          path="/admin/gallery-edit"
+          page={AdminGalleryEditPage}
+          name="galleryEdit"
+        />
+        <Route
+          path="/admin/manage-galleries"
+          page={AdminManageGalleriesPage}
+          name="manageGalleries"
+        />
         <Route
           path="/admin/gallery-upload"
           page={AdminGalleryUploadPage}

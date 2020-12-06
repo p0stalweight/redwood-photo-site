@@ -17,7 +17,6 @@ export const schema = gql`
   input CreatePhotoInput {
     order: Int!
     imageURL: String!
-    galleryId: Int!
   }
 
   input UpdatePhotoInput {
