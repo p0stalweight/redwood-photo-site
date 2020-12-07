@@ -9,6 +9,7 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 import ImageUploader from 'react-images-upload'
+import Resizer from 'react-image-file-resizer'
 import { useState } from 'react'
 import blobToSHA1 from 'blob-to-sha1'
 import { v4 as uuidv4 } from 'uuid'
@@ -49,21 +50,45 @@ export const Success = ({ fileUploadAuth }) => {
   const uploadPhotos = async () => {
     const { uploadUrl, authToken } = fileUploadAuth
 
+    const upload = async (file) => {
+      return fetch(uploadUrl, {
+        method: 'POST',
+        headers: new Headers({
+          Authorization: authToken,
+          'X-Bz-File-Name': file.name,
+          'Content-Type': file.type,
+          'X-Bz-Content-Sha1': await blobToSHA1(file),
+        }),
+        body: file,
+      })
+    }
+
+    const resize = (image) =>
+      new Promise((resolve) => {
+        Resizer.imageFileResizer(
+          image,
+          500, // maxWidth
+          500, // maxHeight
+          image.type.substring(6), // format (trim 'image/' prefix)
+          100, // quality (0..100)
+          0, // rotation
+          (result) => {
+            const renamedFile = new File([result], image.name + 'mini', {
+              type: result.type,
+            })
+            resolve(renamedFile)
+          },
+          'blob' // outputType: blob or base64 URI
+        )
+      })
+
     const renamedImages = images.map((file) => {
       return new File([file], uuidv4().replace(/-/g, ''), { type: file.type })
     })
 
     for (const image of renamedImages) {
-      await fetch(uploadUrl, {
-        method: 'POST',
-        headers: new Headers({
-          Authorization: authToken,
-          'X-Bz-File-Name': image.name,
-          'Content-Type': image.type,
-          'X-Bz-Content-Sha1': await blobToSHA1(image),
-        }),
-        body: image,
-      })
+      await upload(image)
+      await upload(await resize(image))
     }
 
     return renamedImages.map((file) => file.name)
