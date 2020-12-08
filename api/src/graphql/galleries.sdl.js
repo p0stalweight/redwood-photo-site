@@ -31,9 +31,18 @@ export const schema = gql`
     photos: [UpdatePhotoInput!]
   }
 
+  input ChangeGalleryInput {
+    name: String
+    iconImageURL: String
+    latitude: Float
+    longitude: Float
+    tripDate: DateTime!
+  }
+
   type Mutation {
     createGallery(input: CreateGalleryInput!): Gallery!
     updateGallery(id: Int!, input: UpdateGalleryInput!): Gallery!
+    changeGallery(id: Int!, input: ChangeGalleryInput!): Gallery!
     deleteGallery(id: Int!): Gallery!
   }
 `

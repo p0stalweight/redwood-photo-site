@@ -34,6 +34,15 @@ export const updateGallery = ({ id, input }) => {
   })
 }
 
+export const changeGallery = ({ id, input }) => {
+  requireAuth()
+
+  return db.gallery.update({
+    data: { ...input },
+    where: { id },
+  })
+}
+
 export const deleteGallery = ({ id }) => {
   requireAuth()
   return db.gallery.delete({

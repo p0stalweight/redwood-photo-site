@@ -36,6 +36,9 @@ export const QUERY = gql`
     gallery(id: $id) {
       galleryId: id
       name
+      latitude
+      longitude
+      tripDate
       photos {
         imageURL
         order
@@ -50,7 +53,7 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ authorizationRequest, gallery: { galleryId, name, photos } }) => {
+export const Success = ({ authorizationRequest, gallery: { galleryId, name, latitude, longitude, tripDate, photos } }) => {
 
   const [images, setImages] = useState([])
 
@@ -61,6 +64,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, phot
   const choosePhotos = (img) => {
     setImages(img)
   }
+
 
   /* IMAGE FILE MANIPULATION */
   const makeFileNameUnique = (file) => {
@@ -81,7 +85,58 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, phot
         myBlob.name = name;
         return myBlob;
     }
+
+
   }
+
+  /* MODIFY GALLERY */
+  // Take the new form information and mutate the gallery
+  const modifyGallery = () => {
+    let today = new Date('02 December 2020')
+    let testDate = today.toISOString()
+    const inputa = { name: "Updated Name", latitude: 1000.2, longitude: 2000.2, tripDate: `${testDate}` }
+    let testID = Number(1)
+
+    changeGallery({ variables: { id: 1, input: inputa, } })
+  }
+
+  const CHANGE_GALLERY_MUTATION = gql`
+  mutation ChangeGallery($id: Int!, $input: ChangeGalleryInput!) {
+    changeGallery(id: $id, input: $input) {
+      id
+    }
+  }
+
+  `
+  const [changeGallery] = useMutation(CHANGE_GALLERY_MUTATION, {
+    onCompleted: () => {
+      console.log("gallery mutated ")
+    },
+    // Refresh cache
+    refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
+  })
+
+  /* GALLERY CREATION */
+  const CREATE_GALLERY_MUTATION = gql`
+  mutation CreateGalleryMutation($id: CreateGalleryId!, $input: CreateGalleryInput!) {
+    createGallery(input: $input) {
+      id
+    }
+  }
+
+`
+  const [createGallery, { loading, error }] = useMutation(
+    CREATE_GALLERY_MUTATION,
+    {
+      onCompleted: ({createGallery}) => {
+        console.log(createGallery.id)
+        generatePhotos(createGallery.id)
+      },
+      refetchQueries: [{ query: QUERY }],
+      awaitRefetchQueries: true,
+    }
+  )
 
   /* PHOTO CREATION */
   const CREATE_PHOTO_MUTATION = gql`
@@ -117,26 +172,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, phot
 
   }
 
-  /* GALLERY CREATION */
-   const CREATE_GALLERY_MUTATION = gql`
-  mutation CreateGalleryMutation($input: CreateGalleryInput!) {
-    createGallery(input: $input) {
-      id
-    }
-  }
 
-`
-  const [createGallery, { loading, error }] = useMutation(
-    CREATE_GALLERY_MUTATION,
-    {
-      onCompleted: ({createGallery}) => {
-        console.log(createGallery.id)
-        generatePhotos(createGallery.id)
-      },
-      refetchQueries: [{ query: QUERY }],
-      awaitRefetchQueries: true,
-    }
-  )
 
   const submitGallery = async(formData) => {
     // Send photos to Backblaze
@@ -189,15 +225,11 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, phot
 
   /* Form Submission */
   const onSubmit = (formData) => {
-    console.log(formData)
-    submitGallery(formData)
+    console.log("changing gallery")
+    changeGallery()
   }
 
-  const testThing = () => {
-    console.log("tested it!")
-    const { loading, error, data } = useQuery(QUERY2)
-    console.log(gallery.name)
-  }
+
 
   return<div className="rw-segment">
       <header className="rw-segment-header">
@@ -209,27 +241,20 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, phot
         <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
 
           <Label errorClassName= "error" name="Gallery Name" />
-          <TextField name="Gallery Name" errorClassName= "error" validation={{ required: true }} />
+          <TextField name="Gallery Name" defaultValue={name} errorClassName= "error" validation={{ required: true }} />
           <FieldError style={{color: 'red'}} name="Gallery Name"/>
 
           <Label errorClassName= "error" name="Latitude" />
-          <TextField name="Latitude" errorClassName= "error" validation={{ required: true }}  />
+          <TextField name="Latitude" defaultValue={latitude} errorClassName= "error" validation={{ required: true }}  />
           <FieldError style={{color: 'red'}}  name="Latitude"/>
 
           <Label errorClassName= "error" name="Longitude" />
-          <TextField name="Longitude" errorClassName= "error" validation={{ required: true }}  />
+          <TextField name="Longitude" defaultValue={longitude} errorClassName= "error" validation={{ required: true }}  />
           <FieldError style={{color: 'red'}}  name="Longitude"/>
 
-          <Label errorClassName= "error" name="Month" />
-          <TextField name="Month" errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="Month"/>
-
-          <Label errorClassName= "error" name="Year" />
-          <TextField name="Year" errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="Year"/>
 
           <Label errorClassName= "error" name="Date" />
-          <DateField name="Year" errorClassName= "error" validation={{ required: true }}  />
+          <DateField name="Year" defaultValue={tripDate} errorClassName= "error" validation={{ required: true }}  />
           <FieldError style={{color: 'red'}}  name="Date"/>
 
           <ImageUploader
@@ -241,10 +266,9 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, phot
               withPreview={true}
             />
 
-          <Submit>Add Gallery</Submit>
+          <Submit>Update Gallery</Submit>
 
         </Form>
-        <button onClick={testThing}> Test</button>
       </div>
     </div>
 }
