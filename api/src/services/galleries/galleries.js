@@ -11,10 +11,14 @@ export const gallery = ({ id }) => {
   })
 }
 
-export const createGallery = ({ input }) => {
+export const createGallery = ({ input: { name, photos } }) => {
   requireAuth()
   return db.gallery.create({
-    data: input,
+    data: {
+      name,
+      photos: { create: photos },
+      iconImageURL: photos[0].imageURL,
+    },
   })
 }
 
