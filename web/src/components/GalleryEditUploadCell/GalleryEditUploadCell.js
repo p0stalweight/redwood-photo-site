@@ -96,8 +96,8 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     let testDate = today.toISOString()
     const inputa = { name: "Updated Name", latitude: 1000.2, longitude: 2000.2, tripDate: `${testDate}` }
     let testID = Number(1)
-
-    changeGallery({ variables: { id: 1, input: inputa, } })
+    console.log("just prior to change")
+    changeGallery({ id: 1, input: inputa, }) //variables {}
   }
 
   const CHANGE_GALLERY_MUTATION = gql`
@@ -226,10 +226,8 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
   /* Form Submission */
   const onSubmit = (formData) => {
     console.log("changing gallery")
-    changeGallery()
+    modifyGallery()
   }
-
-
 
   return<div className="rw-segment">
       <header className="rw-segment-header">
