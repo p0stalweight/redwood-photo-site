@@ -2,6 +2,9 @@ export const schema = gql`
   type Gallery {
     id: Int!
     name: String!
+    tripDate: DateTime!
+    latitude: Float!
+    longitude: Float!
     createdAt: DateTime!
     iconImageURL: String!
     photos: [Photo]!

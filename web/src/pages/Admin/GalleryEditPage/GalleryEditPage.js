@@ -1,20 +1,13 @@
 import { Link, routes } from '@redwoodjs/router'
-import FileUploadCell from 'src/components/GalleryUploadCell'
+import GalleryEditUploadCell from 'src/components/GalleryEditUploadCell'
 
-const GalleryEditPage = () => {
+const GalleryEditPage = ({ id }) => {
+  console.log(id)
   return (
     <>
       <h1>GalleryEditPage</h1>
-      <p>
-        This page will closely mirror the Gallery-Upload page
-      </p>
+      <GalleryEditUploadCell id={id} />
 
-      <GalleryUploadCell/>
-
-      <p>
-        My default route is named <code>galleryEdit</code>, link to me with `
-        <Link to={routes.galleryEdit()}>GalleryEdit</Link>`
-      </p>
     </>
   )
 }
