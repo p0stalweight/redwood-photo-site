@@ -91,13 +91,13 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
 
   /* MODIFY GALLERY */
   // Take the new form information and mutate the gallery
-  const modifyGallery = () => {
+  const modifyGallery = (formData) => {
     let today = new Date('02 December 2020')
     let testDate = today.toISOString()
-    const inputa = { name: "Updated Name", latitude: 1000.2, longitude: 2000.2, tripDate: `${testDate}` }
-    let testID = Number(1)
+    const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`), longitude: parseFloat(`${formData.Longitude}`), tripDate: `${testDate}` }
+    let testID = 1
     console.log("just prior to change")
-    changeGallery({ id: 1, input: inputa, }) //variables {}
+    changeGallery({ variables: {id: testID, input: testInput, } })
   }
 
   const CHANGE_GALLERY_MUTATION = gql`
@@ -113,14 +113,14 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
       console.log("gallery mutated ")
     },
     // Refresh cache
-    refetchQueries: [{ query: QUERY }],
-    awaitRefetchQueries: true,
+    //refetchQueries: [{ query: QUERY }],
+    //awaitRefetchQueries: true,
   })
 
   /* GALLERY CREATION */
   const CREATE_GALLERY_MUTATION = gql`
-  mutation CreateGalleryMutation($id: CreateGalleryId!, $input: CreateGalleryInput!) {
-    createGallery(input: $input) {
+  mutation CreateGalleryMutation($id: Int!, $input: CreateGalleryInput!) {
+    createGallery(id: $id, input: $input) {
       id
     }
   }
@@ -171,8 +171,6 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     }
 
   }
-
-
 
   const submitGallery = async(formData) => {
     // Send photos to Backblaze
@@ -226,7 +224,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
   /* Form Submission */
   const onSubmit = (formData) => {
     console.log("changing gallery")
-    modifyGallery()
+    modifyGallery(formData)
   }
 
   return<div className="rw-segment">
