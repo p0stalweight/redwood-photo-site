@@ -11,6 +11,7 @@ import {
   FormError,
   FieldError,
   Label,
+  MonthField,
   TextField,
   Submit,
 } from '@redwoodjs/forms'
@@ -22,6 +23,7 @@ import sha1 from 'js-sha1'
 import blobToSHA1 from 'blob-to-sha1'
 import UUID from 'uuidjs'
 import { gql, useQuery } from '@apollo/client'
+import GalleryCell from 'src/components/GalleryCell'
 
 
 export const QUERY = gql`
@@ -59,35 +61,10 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
 
   const [imageFileNames, setImageFileNames] = useState([])
 
-  let imageFileNamesTemp = []
-
   const choosePhotos = (img) => {
     setImages(img)
   }
 
-
-  /* IMAGE FILE MANIPULATION */
-  const makeFileNameUnique = (file) => {
-    let UUID = require("uuidjs")
-    let uuid = UUID.generate()
-    return renameFile(file, uuid.replace(/-/g, ""))
-  }
-
-  const renameFile = (bits, name) => {
-    try {
-        // If this call fails, we go for Blob
-        return new File(bits, name);
-    }
-    catch (e) {
-        // If we reach this point a new File could not be constructed
-        var myBlob = new Blob(bits);
-        myBlob.lastModified = new Date();
-        myBlob.name = name;
-        return myBlob;
-    }
-
-
-  }
 
   /* MODIFY GALLERY */
   // Take the new form information and mutate the gallery
@@ -95,9 +72,8 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     let today = new Date('02 December 2020')
     let testDate = today.toISOString()
     const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`), longitude: parseFloat(`${formData.Longitude}`), tripDate: `${testDate}` }
-    let testID = 1
-    console.log("just prior to change")
-    changeGallery({ variables: {id: testID, input: testInput, } })
+    changeGallery({ variables: {id: galleryId, input: testInput, } })
+    navigate(routes.manageGalleries())
   }
 
   const CHANGE_GALLERY_MUTATION = gql`
@@ -112,118 +88,16 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     onCompleted: () => {
       console.log("gallery mutated ")
     },
-    // Refresh cache
-    //refetchQueries: [{ query: QUERY }],
-    //awaitRefetchQueries: true,
   })
 
-  /* GALLERY CREATION */
-  const CREATE_GALLERY_MUTATION = gql`
-  mutation CreateGalleryMutation($id: Int!, $input: CreateGalleryInput!) {
-    createGallery(id: $id, input: $input) {
-      id
-    }
-  }
-
-`
-  const [createGallery, { loading, error }] = useMutation(
-    CREATE_GALLERY_MUTATION,
-    {
-      onCompleted: ({createGallery}) => {
-        console.log(createGallery.id)
-        generatePhotos(createGallery.id)
-      },
-      refetchQueries: [{ query: QUERY }],
-      awaitRefetchQueries: true,
-    }
-  )
-
-  /* PHOTO CREATION */
-  const CREATE_PHOTO_MUTATION = gql`
-  mutation CreatePhotoMutation($input: CreatePhotoInput!) {
-    createPhoto(input: $input) {
-      id
-    }
-  }
-`
-
-  const [createPhoto] = useMutation(CREATE_PHOTO_MUTATION, {
-    onCompleted: () => {
-      console.log("photo created")
-    },
-    // Refresh cache
-    refetchQueries: [{ query: QUERY }],
-    awaitRefetchQueries: true,
-  })
-
-  const generatePhotos = (galleryId) => {
-    console.log(`generatePhotos: ${galleryId}`)
-    console.log("imageFileNames array:")
-    console.log(imageFileNames)
-
-    for (let index = 0; index < imageFileNames.length; index++) {
-      console.log("Image names during photo object creation:")
-      console.log(imageFileNames[index])
-
-      const input = { order: index + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNames[index], galleryId: galleryId }
-
-      createPhoto({ variables: { input} })
-    }
-
-  }
-
-  const submitGallery = async(formData) => {
-    // Send photos to Backblaze
-    if (images.length < 1) {
-      console.log("No photos to upload, cancelled")
-      return
-    }
-
-    await uploadPhotos() // return array of photo names for use in createGallery
-    console.log("just prior to gallery creation")
-    // Add the gallery to database
-
-    let today = new Date('02 December 2020')
-    let testDate = today.toISOString()
-    const input = { name: `${formData.['Gallery Name']}`, latitude: 20.4, longitude: 20.5, tripDate: `${testDate}` , iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNamesTemp[0]}`, photos: [] }
-    await createGallery({ variables: { input }})
-    console.log("gallery generated")
-
-    navigate(routes.manageGalleries())
-   }
-
-  /* Upload to Backblaze */
-  const uploadPhotos = async() =>  {
-    let imageNames = []
-
-    for (let index = 0; index < images.length; index++) {
-      let imageFile = makeFileNameUnique([images[index]])
-      imageNames.push(imageFile.name)
-
-      let sha1Image = await blobToSHA1(imageFile)
-
-      const response = await fetch(authorizationRequest.backblazeUploadUrl, {
-        method: 'POST',
-        headers: new Headers({
-          Authorization: `${authorizationRequest.backblazeUploadAuthToken}`,
-          'X-Bz-File-Name': `${imageFile.name}`,
-          'Content-Type': `${images[index]['type']}`,
-          'X-Bz-Content-Sha1': `${sha1Image}`,
-        }),
-          body: imageFile,
-      })
-        let responseJson = await response.json()
-        console.log(responseJson)
-     }
-
-    setImageFileNames(imageFileNames.concat(imageNames))
-    imageFileNamesTemp = imageNames
-
+  const addImagesToGallery = () => {
+    //upload images and modify gallery
   }
 
   /* Form Submission */
   const onSubmit = (formData) => {
     console.log("changing gallery")
+    console.log(formData.monthYear)
     modifyGallery(formData)
   }
 
@@ -248,10 +122,11 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
           <TextField name="Longitude" defaultValue={longitude} errorClassName= "error" validation={{ required: true }}  />
           <FieldError style={{color: 'red'}}  name="Longitude"/>
 
+          <Label errorClassName= "error" name="Month, Year" />
+          <MonthField name="monthYear" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="monthYear"/>
 
-          <Label errorClassName= "error" name="Date" />
-          <DateField name="Year" defaultValue={tripDate} errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="Date"/>
+          <GalleryCell id={galleryId} />
 
           <ImageUploader
               withIcon={false}
@@ -261,6 +136,9 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
               maxFileSize={5242880}
               withPreview={true}
             />
+
+          <Button onclick={addImagesToGallery}>Add Images to Gallery</Button>
+
 
           <Submit>Update Gallery</Submit>
 
