@@ -76,6 +76,20 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     navigate(routes.manageGalleries())
   }
 
+  const ADD_PHOTOS_TO_GALLERY_MUTATION = gql`
+  mutation AddPhotosToGallery($id: Int!, $input: AddPhotosToGalleryInput!) {
+    addPhotosToGallery(id: $id, input: $input){
+      id
+    }
+  }
+  `
+
+  const [addPhotosToGallery] = useMutation(ADD_PHOTOS_TO_GALLERY_MUTATION, {
+    onCompleted: () => {
+      console.log("photos mutated ")
+    },
+  })
+
   const CHANGE_GALLERY_MUTATION = gql`
   mutation ChangeGallery($id: Int!, $input: ChangeGalleryInput!) {
     changeGallery(id: $id, input: $input) {
@@ -91,7 +105,10 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
   })
 
   const addImagesToGallery = () => {
-    //upload images and modify gallery
+    console.log("adding images")
+    const photos = [{order: 5, imageURL: "www.test.com", galleryId: 1}, {order: 6, imageURL: "www.lets.com", galleryId}]
+    const input = {photos}
+    addPhotosToGallery({variables: {id: galleryId, input: input} })
   }
 
   /* Form Submission */
@@ -137,7 +154,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
               withPreview={true}
             />
 
-          <Button onclick={addImagesToGallery}>Add Images to Gallery</Button>
+          <Button onClick={addImagesToGallery}>Add Images to Gallery</Button>
 
 
           <Submit>Update Gallery</Submit>

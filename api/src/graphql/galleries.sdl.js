@@ -39,7 +39,12 @@ export const schema = gql`
     tripDate: DateTime!
   }
 
+  input AddPhotosToGalleryInput {
+    photos: [CreatePhotoInput!]
+  }
+
   type Mutation {
+    addPhotosToGallery(id: Int!, input: AddPhotosToGalleryInput!): Gallery!
     createGallery(input: CreateGalleryInput!): Gallery!
     updateGallery(id: Int!, input: UpdateGalleryInput!): Gallery!
     changeGallery(id: Int!, input: ChangeGalleryInput!): Gallery!

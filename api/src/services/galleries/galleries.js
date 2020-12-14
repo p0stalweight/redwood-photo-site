@@ -34,6 +34,22 @@ export const updateGallery = ({ id, input }) => {
   })
 }
 
+export const addPhotosToGallery = ({ id, input }) => {
+  requireAuth()
+
+  return db.gallery.update({
+    where: { id },
+    data: {
+      photos: {
+          create: input.photos.map(({ order, imageURL }) => ({
+            order,
+            imageURL
+          })),
+        }
+    },
+  })
+}
+
 export const changeGallery = ({ id, input }) => {
   requireAuth()
 
