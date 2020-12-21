@@ -66,15 +66,6 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
   }
 
 
-  /* MODIFY GALLERY */
-  // Take the new form information and mutate the gallery
-  const modifyGallery = (formData) => {
-    let today = new Date('02 December 2020')
-    let testDate = today.toISOString()
-    const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`), longitude: parseFloat(`${formData.Longitude}`), tripDate: `${testDate}` }
-    changeGallery({ variables: {id: galleryId, input: testInput, } })
-    navigate(routes.manageGalleries())
-  }
 
   const ADD_PHOTOS_TO_GALLERY_MUTATION = gql`
   mutation AddPhotosToGallery($id: Int!, $input: AddPhotosToGalleryInput!) {
@@ -111,11 +102,29 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     addPhotosToGallery({variables: {id: galleryId, input: input} })
   }
 
-  /* Form Submission */
-  const onSubmit = (formData) => {
-    console.log("changing gallery")
-    console.log(formData.monthYear)
-    modifyGallery(formData)
+  /* MODIFY GALLERY */
+  // Take the new form information and mutate the gallery
+  const modifyGallery = (formData) => {
+    console.log("formdata.tripDate: " + formData.tripDate)
+    var trip = new Date(formData.tripDate)
+    console.log("As a Date object: " + trip)
+
+    let month = trip.getMonth()
+    trip.setMonth(month + 1, 1)
+
+    let convertedTripDate = trip.toISOString()
+    const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`), longitude: parseFloat(`${formData.Longitude}`), tripDate: `${convertedTripDate}` }
+    changeGallery({ variables: {id: galleryId, input: testInput, } })
+    //navigate(routes.manageGalleries())
+  }
+
+
+
+  const convertUTCtoMonthYear = (date) => {
+   const jsDate = new Date(date)
+   const month = jsDate.getMonth() + 1
+   const year = jsDate.getYear()
+   return `${year}-${month}`
   }
 
   return<div className="rw-segment">
@@ -125,7 +134,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
 
       <div className="rw-segment-main">
 
-        <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
+        <Form onSubmit={modifyGallery} validation={{ mode: 'onBlur' }}>
 
           <Label errorClassName= "error" name="Gallery Name" />
           <TextField name="Gallery Name" defaultValue={name} errorClassName= "error" validation={{ required: true }} />
@@ -139,9 +148,9 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
           <TextField name="Longitude" defaultValue={longitude} errorClassName= "error" validation={{ required: true }}  />
           <FieldError style={{color: 'red'}}  name="Longitude"/>
 
-          <Label errorClassName= "error" name="Month, Year" />
-          <MonthField name="monthYear" errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="monthYear"/>
+          <Label errorClassName= "error" name="Trip Date" />
+          <MonthField name="tripDate" defaultValue={convertUTCtoMonthYear(tripDate)} errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="tripDate"/>
 
           <GalleryCell id={galleryId} />
 
