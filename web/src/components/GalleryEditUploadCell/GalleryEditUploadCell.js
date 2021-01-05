@@ -104,27 +104,42 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
 
   /* MODIFY GALLERY */
   // Take the new form information and mutate the gallery
+  const getYearFromMonthFieldString = (formData) => {
+    let year = formData.substr(0, formData.indexOf('-'))
+    return year
+  }
+
+  const getMonthFromMonthFieldString = (formData) => {
+    let dashIndex = formData.indexOf('-')
+    console.log("dash index: " + dashIndex)
+    let month = formData.substr(dashIndex + 1, 2)
+    return month
+  }
+
   const modifyGallery = (formData) => {
     console.log("formdata.tripDate: " + formData.tripDate)
-    var trip = new Date(formData.tripDate)
-    console.log("As a Date object: " + trip)
+    let year = getYearFromMonthFieldString(formData.tripDate)
+    let month = getMonthFromMonthFieldString(formData.tripDate)
 
-    let month = trip.getMonth()
-    trip.setMonth(month + 1, 1)
+    let tripDate = new Date()
+    tripDate.setMonth(Number(month) - 1)
+    tripDate.setYear(Number(year))
 
-    let convertedTripDate = trip.toISOString()
+    let convertedTripDate = tripDate.toISOString()
+    console.log("Saved date: " + tripDate)
     const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`), longitude: parseFloat(`${formData.Longitude}`), tripDate: `${convertedTripDate}` }
     changeGallery({ variables: {id: galleryId, input: testInput, } })
     //navigate(routes.manageGalleries())
   }
 
-
-
   const convertUTCtoMonthYear = (date) => {
-   const jsDate = new Date(date)
-   const month = jsDate.getMonth() + 1
-   const year = jsDate.getYear()
-   return `${year}-${month}`
+    console.log(`date: ${date}`)
+    const month = getMonthFromMonthFieldString(date)
+    console.log(month)
+    const year = getYearFromMonthFieldString(date)
+    console.log(year)
+    console.log(`${year}-${month}`)
+    return `${year}-${month}`
   }
 
   return<div className="rw-segment">
