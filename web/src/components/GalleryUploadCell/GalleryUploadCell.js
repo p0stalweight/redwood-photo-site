@@ -129,10 +129,10 @@ export const Success = ({ authorizationRequest }) => {
 
   const submitGallery = async(formData) => {
     // Send photos to Backblaze
-    if (images.length < 1) {
+    /*if (images.length < 1) {
       console.log("No photos to upload, cancelled")
       return
-    }
+    }*/
 
     await uploadPhotos() // return array of photo names for use in createGallery
     console.log("just prior to gallery creation")

@@ -65,6 +65,9 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     setImages(img)
   }
 
+  /* GRAPH QL MUTATIONS */
+
+  // Add Photos
   const ADD_PHOTOS_TO_GALLERY_MUTATION = gql`
   mutation AddPhotosToGallery($id: Int!, $input: AddPhotosToGalleryInput!) {
     addPhotosToGallery(id: $id, input: $input){
@@ -79,25 +82,66 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     },
   })
 
+  // Change Gallery
   const CHANGE_GALLERY_MUTATION = gql`
   mutation ChangeGallery($id: Int!, $input: ChangeGalleryInput!) {
     changeGallery(id: $id, input: $input) {
       id
     }
   }
-
   `
+
   const [changeGallery] = useMutation(CHANGE_GALLERY_MUTATION, {
     onCompleted: () => {
       console.log("gallery mutated ")
     },
   })
 
+  // Delete Photos in Gallery
+  const DELETE_PHOTOS_IN_GALLERY_MUTATION = gql`
+  mutation DeletePhotosByGallery($galleryId: Int!) {
+    deletePhotosByGallery(galleryId: $galleryId) {
+      galleryId
+    }
+  }`
+
+  const [deletePhotosByGallery] = useMutation(DELETE_PHOTOS_IN_GALLERY_MUTATION, {
+    onCompleted: () => {
+      console.log("photos deleted")
+    }
+  })
+
+
+  // Delete Gallery
+  const DELETE_GALLERY_MUTATION = gql`
+  mutation DeleteGallery($id: Int!) {
+    deleteGallery(id: $id){
+      id
+    }
+  }
+  `
+
+  const [deleteGallery] = useMutation(DELETE_GALLERY_MUTATION, {
+    onCompleted: () => {
+      console.log("gallery deleted")
+    },
+  })
+
+  /* ADD IMAGES */
   const addImagesToGallery = () => {
     console.log("adding images")
     const photos = [{order: 5, imageURL: "www.test.com", galleryId: 1}, {order: 6, imageURL: "www.lets.com", galleryId}]
     const input = {photos}
     addPhotosToGallery({variables: {id: galleryId, input: input} })
+  }
+
+  /* DELETE GALLERY */
+  const removeGallery = () => {
+    console.log("Deleting Photos")
+    deletePhotosByGallery({ variables: {galleryId: galleryId}})
+    console.log("Delete Gallery")
+    deleteGallery({ variables: {id: galleryId} })
+    navigate(routes.manageGalleries())
   }
 
   /* MODIFY GALLERY */
@@ -107,12 +151,13 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     let month = getMonthFromMonthFieldString(formData.tripDate)
 
     let tripDate = new Date()
-    tripDate.setMonth(Number(month) - 1) // JS dates are indexed from 0-11
+    tripDate.setMonth(Number(month) - 1) // JS dates are indexed from 0-11, MonthField is 1-12
     tripDate.setYear(Number(year))
 
     let convertedTripDate = tripDate.toISOString()
-    console.log("Saved date: " + tripDate)
-    const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`), longitude: parseFloat(`${formData.Longitude}`), tripDate: `${convertedTripDate}` }
+    const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`),
+                        longitude: parseFloat(`${formData.Longitude}`), tripDate: `${convertedTripDate}` }
+
     changeGallery({ variables: {id: galleryId, input: testInput, } })
     navigate(routes.manageGalleries())
   }
@@ -120,12 +165,8 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
   /* Date Manipulation Methods*/
   // Switching between DateTime and JS Date Objects
   const convertUTCtoMonthYear = (date) => {
-    console.log(`date: ${date}`)
     const month = getMonthFromMonthFieldString(date)
-    console.log(month)
     const year = getYearFromMonthFieldString(date)
-    console.log(year)
-    console.log(`${year}-${month}`)
     return `${year}-${month}`
   }
 
@@ -140,6 +181,8 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
   }
 
   return<div className="rw-segment">
+      <Button onClick={removeGallery}>Remove Gallery</Button>
+
       <header className="rw-segment-header">
         <h2 className="rw-heading rw-heading" style ={{ textAlign: 'center' }}>Edit Gallery {name}</h2>
       </header>

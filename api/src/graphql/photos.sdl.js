@@ -31,5 +31,6 @@ export const schema = gql`
     createPhoto(input: CreatePhotoInput!): Photo!
     updatePhoto(id: Int!, input: UpdatePhotoInput!): Photo!
     deletePhoto(id: Int!): Photo!
+    deletePhotosByGallery(galleryId: Int!): Photo!
   }
 `
