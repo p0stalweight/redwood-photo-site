@@ -65,8 +65,6 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     setImages(img)
   }
 
-
-
   const ADD_PHOTOS_TO_GALLERY_MUTATION = gql`
   mutation AddPhotosToGallery($id: Int!, $input: AddPhotosToGalleryInput!) {
     addPhotosToGallery(id: $id, input: $input){
@@ -104,34 +102,23 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
 
   /* MODIFY GALLERY */
   // Take the new form information and mutate the gallery
-  const getYearFromMonthFieldString = (formData) => {
-    let year = formData.substr(0, formData.indexOf('-'))
-    return year
-  }
-
-  const getMonthFromMonthFieldString = (formData) => {
-    let dashIndex = formData.indexOf('-')
-    console.log("dash index: " + dashIndex)
-    let month = formData.substr(dashIndex + 1, 2)
-    return month
-  }
-
   const modifyGallery = (formData) => {
-    console.log("formdata.tripDate: " + formData.tripDate)
     let year = getYearFromMonthFieldString(formData.tripDate)
     let month = getMonthFromMonthFieldString(formData.tripDate)
 
     let tripDate = new Date()
-    tripDate.setMonth(Number(month) - 1)
+    tripDate.setMonth(Number(month) - 1) // JS dates are indexed from 0-11
     tripDate.setYear(Number(year))
 
     let convertedTripDate = tripDate.toISOString()
     console.log("Saved date: " + tripDate)
     const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`), longitude: parseFloat(`${formData.Longitude}`), tripDate: `${convertedTripDate}` }
     changeGallery({ variables: {id: galleryId, input: testInput, } })
-    //navigate(routes.manageGalleries())
+    navigate(routes.manageGalleries())
   }
 
+  /* Date Manipulation Methods*/
+  // Switching between DateTime and JS Date Objects
   const convertUTCtoMonthYear = (date) => {
     console.log(`date: ${date}`)
     const month = getMonthFromMonthFieldString(date)
@@ -140,6 +127,16 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     console.log(year)
     console.log(`${year}-${month}`)
     return `${year}-${month}`
+  }
+
+  const getYearFromMonthFieldString = (formData) => {
+    let year = formData.substr(0, formData.indexOf('-'))
+    return year
+  }
+
+  const getMonthFromMonthFieldString = (formData) => {
+    let month = formData.substr(formData.indexOf('-') + 1, 2)
+    return month
   }
 
   return<div className="rw-segment">
