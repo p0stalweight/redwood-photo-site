@@ -38,6 +38,34 @@ export const updateGallery = ({ id, input }) => {
   })
 }
 
+const getNumberOfPhotosInGallery = ( id ) => {
+  return db.photo.count({ where: { id } })
+}
+
+export const addPhotosToGallery = ({ id, input }) => {
+  requireAuth()
+  return db.gallery.update({
+    where: { id },
+    data: {
+      photos: {
+          create: input.photos.map(({ order, imageURL }) => ({
+            order,
+            imageURL
+          })),
+        }
+    },
+  })
+}
+
+export const changeGallery = ({ id, input }) => {
+  requireAuth()
+
+  return db.gallery.update({
+    data: { ...input },
+    where: { id },
+  })
+}
+
 export const deleteGallery = ({ id }) => {
   requireAuth()
   return db.gallery.delete({

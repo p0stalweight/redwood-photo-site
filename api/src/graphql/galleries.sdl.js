@@ -2,6 +2,9 @@ export const schema = gql`
   type Gallery {
     id: Int!
     name: String!
+    tripDate: DateTime!
+    latitude: Float!
+    longitude: Float!
     createdAt: DateTime!
     iconImageURL: String!
     photos: [Photo]!
@@ -15,6 +18,13 @@ export const schema = gql`
 
   input CreateGalleryInput {
     name: String!
+<<<<<<< HEAD
+=======
+    tripDate: DateTime!
+    latitude: Float!
+    longitude: Float!
+    iconImageURL: String!
+>>>>>>> gallery-create
     photos: [CreatePhotoInput!]
   }
 
@@ -24,9 +34,23 @@ export const schema = gql`
     photos: [UpdatePhotoInput!]
   }
 
+  input ChangeGalleryInput {
+    name: String
+    iconImageURL: String
+    latitude: Float
+    longitude: Float
+    tripDate: DateTime!
+  }
+
+  input AddPhotosToGalleryInput {
+    photos: [CreatePhotoInput!]
+  }
+
   type Mutation {
+    addPhotosToGallery(id: Int!, input: AddPhotosToGalleryInput!): Gallery!
     createGallery(input: CreateGalleryInput!): Gallery!
     updateGallery(id: Int!, input: UpdateGalleryInput!): Gallery!
+    changeGallery(id: Int!, input: ChangeGalleryInput!): Gallery!
     deleteGallery(id: Int!): Gallery!
   }
 `

@@ -14,6 +14,7 @@ const Routes = () => {
     <Router>
       <Route path="/admin/login" page={AdminLoginPage} name="login" />
       <Private unauthenticated="home">
+<<<<<<< HEAD
         <Route
           path="/admin/gallery-edit"
           page={AdminGalleryEditPage}
@@ -24,6 +25,10 @@ const Routes = () => {
           page={AdminManageGalleriesPage}
           name="manageGalleries"
         />
+=======
+        <Route path="/admin/gallery-edit/{id:Int}" page={AdminGalleryEditPage} name="galleryEdit" />
+        <Route path="/admin/manage-galleries" page={AdminManageGalleriesPage} name="manageGalleries" />
+>>>>>>> gallery-create
         <Route
           path="/admin/gallery-upload"
           page={AdminGalleryUploadPage}

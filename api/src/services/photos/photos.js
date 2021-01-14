@@ -56,6 +56,13 @@ export const deletePhoto = ({ id }) => {
   })
 }
 
+export const deletePhotosByGallery = ({ galleryId }) => {
+  requireAuth()
+  return db.photo.deleteMany({
+    where: { galleryId },
+  })
+}
+
 export const Photo = {
   gallery: (_obj, { root }) =>
     db.photo.findOne({ where: { id: root.id } }).gallery(),

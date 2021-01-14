@@ -1,4 +1,11 @@
 datasource DS {
+  // optionally set multiple providers
+  // example: provider = ["sqlite", "postgresql"]
+  provider = "sqlite"
+  url = "***"
+}
+
+generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
@@ -21,4 +28,13 @@ model Photo {
   createdAt DateTime @default(now())
   gallery   Gallery  @relation(fields: [galleryId], references: [id])
   galleryId Int
+}
+
+model AuthorizationRequest {
+  id                       Int    @id @default(autoincrement())
+  authorizationToken       String
+  backblazeApiUrl          String
+  backblazeDownloadUrl     String
+  backblazeUploadUrl       String
+  backblazeUploadAuthToken String
 }

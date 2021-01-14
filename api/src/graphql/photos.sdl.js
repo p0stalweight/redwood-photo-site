@@ -19,6 +19,11 @@ export const schema = gql`
     imageURL: String!
   }
 
+  input AddPhotoInput {
+    imageURL: String!
+    galleryId: Int!
+  }
+
   input UpdatePhotoInput {
     id: Int
     order: Int
@@ -30,5 +35,6 @@ export const schema = gql`
     createPhoto(input: CreatePhotoInput!): Photo!
     updatePhoto(id: Int!, input: UpdatePhotoInput!): Photo!
     deletePhoto(id: Int!): Photo!
+    deletePhotosByGallery(galleryId: Int!): Photo!
   }
 `

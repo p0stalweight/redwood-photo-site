@@ -47,6 +47,7 @@ export const Success = ({ fileUploadAuth }) => {
     }
   )
 
+<<<<<<< HEAD
   const uploadPhotos = async () => {
     const { uploadUrl, authToken } = fileUploadAuth
 
@@ -90,6 +91,35 @@ export const Success = ({ fileUploadAuth }) => {
       await upload(image)
       await upload(await resize(image))
     }
+=======
+  const submitGallery = async(formData) => {
+    // Send photos to Backblaze
+    /*if (images.length < 1) {
+      console.log("No photos to upload, cancelled")
+      return
+    }*/
+
+    await uploadPhotos() // return array of photo names for use in createGallery
+    console.log("just prior to gallery creation")
+    // Add the gallery to database
+
+    let today = new Date('02 December 2020')
+    let testDate = today.toISOString()
+    const input = { name: `${formData.['Gallery Name']}`, latitude: 20.4, longitude: 20.5, tripDate: `${testDate}` , iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + `${imageFileNamesTemp[0]}`, photos: [] }
+    await createGallery({ variables: { input }})
+    console.log("gallery generated")
+
+    navigate(routes.manageGalleries())
+   }
+
+  /* Upload to Backblaze */
+  const uploadPhotos = async() =>  {
+    let imageNames = []
+
+    for (let index = 0; index < images.length; index++) {
+      let imageFile = makeFileNameUnique([images[index]])
+      imageNames.push(imageFile.name)
+>>>>>>> gallery-create
 
     return renamedImages.map((file) => file.name)
   }
@@ -124,6 +154,7 @@ export const Success = ({ fileUploadAuth }) => {
 
       <div className="rw-segment-main">
         <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
+<<<<<<< HEAD
           <Label errorClassName="error" name="name">
             Name
           </Label>
@@ -163,6 +194,28 @@ export const Success = ({ fileUploadAuth }) => {
             validation={{ required: true }}
           />
           <FieldError style={{ color: 'red' }} name="year" />
+=======
+
+          <Label errorClassName= "error" name="Gallery Name" />
+          <TextField name="Gallery Name" errorClassName= "error" validation={{ required: true }} />
+          <FieldError style={{color: 'red'}} name="Gallery Name"/>
+
+          <Label errorClassName= "error" name="Latitude" />
+          <TextField name="Latitude" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="Latitude"/>
+
+          <Label errorClassName= "error" name="Longitude" />
+          <TextField name="Longitude" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="Longitude"/>
+
+          <Label errorClassName= "error" name="Month" />
+          <TextField name="Month" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="Month"/>
+
+          <Label errorClassName= "error" name="Year" />
+          <TextField name="Year" errorClassName= "error" validation={{ required: true }}  />
+          <FieldError style={{color: 'red'}}  name="Year"/>
+>>>>>>> gallery-create
 
           <ImageUploader
             withIcon={false}
