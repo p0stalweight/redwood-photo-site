@@ -34,9 +34,12 @@ export const updateGallery = ({ id, input }) => {
   })
 }
 
+const getNumberOfPhotosInGallery = ( id ) => {
+  return db.photo.count({ where: { id } })
+}
+
 export const addPhotosToGallery = ({ id, input }) => {
   requireAuth()
-
   return db.gallery.update({
     where: { id },
     data: {

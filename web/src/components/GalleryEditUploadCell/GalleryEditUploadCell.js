@@ -45,6 +45,7 @@ export const QUERY = gql`
         imageURL
         order
       }
+      size
     }
   }
 `
@@ -55,32 +56,19 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ authorizationRequest, gallery: { galleryId, name, latitude, longitude, tripDate, photos } }) => {
+export const Success = ({ authorizationRequest, gallery: { galleryId, name, latitude, longitude, tripDate, photos, size } }) => {
 
   const [images, setImages] = useState([])
 
   const [imageFileNames, setImageFileNames] = useState([])
 
+  let imageFileNamesTemp = []
+
   const choosePhotos = (img) => {
     setImages(img)
   }
 
-  /* GRAPH QL MUTATIONS */
-
-  // Add Photos
-  const ADD_PHOTOS_TO_GALLERY_MUTATION = gql`
-  mutation AddPhotosToGallery($id: Int!, $input: AddPhotosToGalleryInput!) {
-    addPhotosToGallery(id: $id, input: $input){
-      id
-    }
-  }
-  `
-
-  const [addPhotosToGallery] = useMutation(ADD_PHOTOS_TO_GALLERY_MUTATION, {
-    onCompleted: () => {
-      console.log("photos mutated ")
-    },
-  })
+  /* GRAPHQL MUTATIONS */
 
   // Change Gallery
   const CHANGE_GALLERY_MUTATION = gql`
@@ -127,12 +115,37 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     },
   })
 
-  /* ADD IMAGES */
-  const addImagesToGallery = () => {
+  // Add Photos
+  const ADD_PHOTOS_TO_GALLERY_MUTATION = gql`
+  mutation AddPhotosToGallery($id: Int!, $input: AddPhotosToGalleryInput!) {
+    addPhotosToGallery(id: $id, input: $input){
+      id
+    }
+  }
+  `
+
+  const [addPhotosToGallery] = useMutation(ADD_PHOTOS_TO_GALLERY_MUTATION, {
+    onCompleted: () => {
+      console.log("photos mutated ")
+    },
+  })
+
+  /* ADD IMAGES: Adds new images to an existing gallery */
+  const addImagesToGallery = async() => {
     console.log("adding images")
-    const photos = [{order: 5, imageURL: "www.test.com", galleryId: 1}, {order: 6, imageURL: "www.lets.com", galleryId}]
-    const input = {photos}
-    addPhotosToGallery({variables: {id: galleryId, input: input} })
+    await uploadPhotos()
+
+   var photoSet = []
+    for (let index = 0; index < imageFileNamesTemp.length; index++) {
+      console.log("Image names during photo object creation:")
+      console.log(imageFileNamesTemp[index])
+
+      photoSet.push({ order: index + size + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNamesTemp[index], galleryId: galleryId })
+    }
+
+    const input = { photos: photoSet }
+    await addPhotosToGallery({ variables: { id: galleryId, input: input } })
+
   }
 
   /* DELETE GALLERY */
@@ -162,6 +175,56 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
     navigate(routes.manageGalleries())
   }
 
+  /* IMAGE UPLOAD */
+  const uploadPhotos = async() =>  {
+    let imageNames = []
+
+    for (let index = 0; index < images.length; index++) {
+      let imageFile = makeFileNameUnique([images[index]])
+      imageNames.push(imageFile.name)
+
+      let sha1Image = await blobToSHA1(imageFile)
+
+      const response = await fetch(authorizationRequest.backblazeUploadUrl, {
+        method: 'POST',
+        headers: new Headers({
+          Authorization: `${authorizationRequest.backblazeUploadAuthToken}`,
+          'X-Bz-File-Name': `${imageFile.name}`,
+          'Content-Type': `${images[index]['type']}`,
+          'X-Bz-Content-Sha1': `${sha1Image}`,
+        }),
+          body: imageFile,
+      })
+        let responseJson = await response.json()
+        console.log(responseJson)
+     }
+
+    setImageFileNames(imageFileNames.concat(imageNames))
+    imageFileNamesTemp = imageNames
+
+  }
+
+   /* IMAGE FILE MANIPULATION */
+   const makeFileNameUnique = (file) => {
+    let UUID = require("uuidjs")
+    let uuid = UUID.generate()
+    return renameFile(file, uuid.replace(/-/g, ""))
+  }
+
+  const renameFile = (bits, name) => {
+    try {
+        // If this call fails, we go for Blob
+        return new File(bits, name);
+    }
+    catch (e) {
+        // If we reach this point a new File could not be constructed
+        var myBlob = new Blob(bits);
+        myBlob.lastModified = new Date();
+        myBlob.name = name;
+        return myBlob;
+    }
+  }
+
   /* Date Manipulation Methods*/
   // Switching between DateTime and JS Date Objects
   const convertUTCtoMonthYear = (date) => {
@@ -184,7 +247,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
       <Button onClick={removeGallery}>Remove Gallery</Button>
 
       <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading" style ={{ textAlign: 'center' }}>Edit Gallery {name}</h2>
+        <h2 className="rw-heading rw-heading" style ={{ textAlign: 'center' }}>Edit Gallery {name} </h2>
       </header>
 
       <div className="rw-segment-main">
