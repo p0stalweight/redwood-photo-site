@@ -5,6 +5,7 @@ import {
   Router,
   Routes
 } from '@redwoodjs/router'
+import GalleryUploadForm from 'src/components/GalleryUploadForm'
 import {
   DateField,
   Form,
@@ -157,6 +158,8 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
   /* MODIFY GALLERY */
   // Take the new form information and mutate the gallery
   const modifyGallery = (formData) => {
+    console.log("formData:")
+    console.log(formData)
     let year = getYearFromMonthFieldString(formData.tripDate)
     let month = getMonthFromMonthFieldString(formData.tripDate)
 
@@ -165,7 +168,7 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
     tripDate.setYear(Number(year))
 
     let convertedTripDate = tripDate.toISOString()
-    const testInput = { name: `${formData.['Gallery Name']}`, latitude: parseFloat(`${formData.Latitude}`),
+    const testInput = { name: `${formData.name}`, latitude: parseFloat(`${formData.Latitude}`),
                         longitude: parseFloat(`${formData.Longitude}`), tripDate: `${convertedTripDate}` }
 
     changeGallery({ variables: {id: galleryId, input: testInput, } })
@@ -250,42 +253,17 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
       <Button onClick={removeGallery}>Remove Gallery</Button>
 
       <div className="rw-segment-main">
-
-        <Form onSubmit={modifyGallery} validation={{ mode: 'onBlur' }}>
-
-          <Label errorClassName= "error" name="Gallery Name" />
-          <TextField name="Gallery Name" defaultValue={name} errorClassName= "error" validation={{ required: true }} />
-          <FieldError style={{color: 'red'}} name="Gallery Name"/>
-
-          <Label errorClassName= "error" name="Latitude" />
-          <TextField name="Latitude" defaultValue={latitude} errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="Latitude"/>
-
-          <Label errorClassName= "error" name="Longitude" />
-          <TextField name="Longitude" defaultValue={longitude} errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="Longitude"/>
-
-          <Label errorClassName= "error" name="Trip Date" />
-          <MonthField name="tripDate" defaultValue={convertUTCtoMonthYear(tripDate)} errorClassName= "error" validation={{ required: true }}  />
-          <FieldError style={{color: 'red'}}  name="tripDate"/>
-
-          <GalleryCell id={ parseInt(galleryId) } />
-
-          <ImageUploader
-              withIcon={false}
-              buttonText="Choose images"
-              onChange={choosePhotos}
-              imgExtension={['.jpg', '.gif', '.png', '.gif']}
-              maxFileSize={5242880}
-              withPreview={true}
-            />
-
-          <Button onClick={addImagesToGallery}>Add Images to Gallery</Button>
-
-
-          <Submit>Update Gallery</Submit>
-
-        </Form>
+        <GalleryUploadForm name={name} latitude={latitude} longitude={longitude} tripDate={tripDate} onSave={modifyGallery}/>
+        <GalleryCell id={ parseInt(galleryId) } />
+        <ImageUploader
+          withIcon={false}
+          buttonText="Choose images"
+          onChange={choosePhotos}
+          imgExtension={['.jpg', '.gif', '.png', '.gif']}
+          maxFileSize={5242880}
+          withPreview={true}
+        />
+        <Button onClick={addImagesToGallery}>Add Images to Gallery</Button>
       </div>
     </div>
 }

@@ -1,15 +1,6 @@
 import { useMutation } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
 import GalleryUploadForm from 'src/components/GalleryUploadForm'
-import {
-  Form,
-  FormError,
-  FieldError,
-  Label,
-  TextField,
-  Submit,
-  MonthField,
-} from '@redwoodjs/forms'
 import ImageUploader from 'react-images-upload'
 import Resizer from 'react-image-file-resizer'
 import { useState } from 'react'
@@ -146,10 +137,6 @@ export const Success = ({ fileUploadAuth }) => {
   const getMonthFromMonthFieldString = (formData) => {
     let month = formData.substr(formData.indexOf('-') + 1, 2)
     return month
-  }
-
-  const onSave = (input) => {
-    console.log(input)
   }
 
   return (
