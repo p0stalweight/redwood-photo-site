@@ -1,12 +1,10 @@
 import { Link, routes } from '@redwoodjs/router'
 import GalleryEditUploadCell from 'src/components/GalleryEditUploadCell'
 
-const GalleryEditPage = ({ id }) => {
+const GalleryEditPage = ( { id } ) => {
   return (
     <>
-      <h1>GalleryEditPage</h1>
-      <GalleryEditUploadCell id={id} />
-
+      <GalleryEditUploadCell id={ parseInt(id) } />
     </>
   )
 }

@@ -1,5 +1,6 @@
 import { useMutation } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
+import GalleryUploadForm from 'src/components/GalleryUploadForm'
 import {
   Form,
   FormError,
@@ -7,6 +8,7 @@ import {
   Label,
   TextField,
   Submit,
+  MonthField,
 } from '@redwoodjs/forms'
 import ImageUploader from 'react-images-upload'
 import Resizer from 'react-image-file-resizer'
@@ -103,6 +105,13 @@ export const Success = ({ fileUploadAuth }) => {
 
     const imageNames = await uploadPhotos()
 
+    let year = getYearFromMonthFieldString(formData.tripDate)
+    let month = getMonthFromMonthFieldString(formData.tripDate)
+    let tripDate = new Date()
+    tripDate.setMonth(Number(month) - 1) // JS dates are indexed from 0-11, MonthField is 1-12
+    tripDate.setYear(Number(year))
+    let convertedTripDate = tripDate.toISOString()
+
     const photos = imageNames.map((name, i) => {
       return {
         imageURL: 'https://f002.backblazeb2.com/file/redwood-photo/' + name,
@@ -110,8 +119,37 @@ export const Success = ({ fileUploadAuth }) => {
       }
     })
 
-    const input = { name: formData.name, photos }
+    const input = { name: formData.name,
+                    iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageNames[0],
+                    latitude: parseFloat(`${formData.Latitude}`),
+                    longitude: parseFloat(`${formData.Longitude}`),
+                    tripDate: `${convertedTripDate}`,
+                    photos,
+                  }
     createGallery({ variables: { input } })
+    console.log("Gallery Created!")
+  }
+
+  /* Date Manipulation Methods*/
+  // Switching between DateTime and JS Date Objects
+  const convertUTCtoMonthYear = (date) => {
+    const month = getMonthFromMonthFieldString(date)
+    const year = getYearFromMonthFieldString(date)
+    return `${year}-${month}`
+  }
+
+  const getYearFromMonthFieldString = (formData) => {
+    let year = formData.substr(0, formData.indexOf('-'))
+    return year
+  }
+
+  const getMonthFromMonthFieldString = (formData) => {
+    let month = formData.substr(formData.indexOf('-') + 1, 2)
+    return month
+  }
+
+  const onSave = (input) => {
+    console.log(input)
   }
 
   return (
@@ -121,61 +159,15 @@ export const Success = ({ fileUploadAuth }) => {
           New Gallery
         </h2>
       </header>
-
-      <div className="rw-segment-main">
-        <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
-          <Label errorClassName="error" name="name">
-            Name
-          </Label>
-          <TextField
-            name="name"
-            errorClassName="error"
-            validation={{ required: true }}
-          />
-          <FieldError style={{ color: 'red' }} name="name" />
-
-          <Label errorClassName="error" name="location">
-            Location
-          </Label>
-          <TextField
-            name="location"
-            errorClassName="error"
-            validation={{ required: true }}
-          />
-          <FieldError style={{ color: 'red' }} name="location" />
-
-          <Label errorClassName="error" name="month">
-            Month
-          </Label>
-          <TextField
-            name="month"
-            errorClassName="error"
-            validation={{ required: true }}
-          />
-          <FieldError style={{ color: 'red' }} name="month" />
-
-          <Label errorClassName="error" name="year">
-            Year
-          </Label>
-          <TextField
-            name="year"
-            errorClassName="error"
-            validation={{ required: true }}
-          />
-          <FieldError style={{ color: 'red' }} name="year" />
-
-          <ImageUploader
-            withIcon={false}
-            buttonText="Choose images"
-            onChange={setImages}
-            imgExtension={['.jpg', '.gif', '.png']}
-            maxFileSize={5242880}
-            withPreview
-          />
-
-          <Submit>Add Gallery</Submit>
-        </Form>
-      </div>
+      <GalleryUploadForm onSave={onSubmit}/>
+      <ImageUploader
+        withIcon={false}
+        buttonText="Choose images"
+        onChange={setImages}
+        imgExtension={['.jpg', '.gif', '.png']}
+        maxFileSize={5242880}
+        withPreview
+      />
     </div>
   )
 }

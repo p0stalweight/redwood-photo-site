@@ -11,13 +11,16 @@ export const gallery = ({ id }) => {
   })
 }
 
-export const createGallery = ({ input: { name, photos } }) => {
+export const createGallery = ({ input: { name, iconImageURL, latitude, longitude, tripDate, photos } }) => {
   requireAuth()
   return db.gallery.create({
     data: {
       name,
+      iconImageURL,
+      latitude,
+      longitude,
+      tripDate,
       photos: { create: photos },
-      iconImageURL: photos[0].imageURL,
     },
   })
 }

@@ -28,13 +28,6 @@ import GalleryCell from 'src/components/GalleryCell'
 
 export const QUERY = gql`
   query GALLERY($id: Int!) {
-    authorizationRequest: getAuthorizationRequest {
-      authorizationToken
-      backblazeApiUrl
-      backblazeDownloadUrl
-      backblazeUploadUrl
-      backblazeUploadAuthToken
-    }
     gallery(id: $id) {
       galleryId: id
       name
@@ -47,6 +40,10 @@ export const QUERY = gql`
       }
       size
     }
+    fileUploadAuth {
+      authToken
+      uploadUrl
+    }
   }
 `
 
@@ -56,7 +53,7 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ authorizationRequest, gallery: { galleryId, name, latitude, longitude, tripDate, photos, size } }) => {
+export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, longitude, tripDate, photos, size } }) => {
 
   const [images, setImages] = useState([])
 
@@ -140,7 +137,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
       console.log("Image names during photo object creation:")
       console.log(imageFileNamesTemp[index])
 
-      photoSet.push({ order: index + size + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNamesTemp[index], galleryId: galleryId })
+      photoSet.push({ order: index + size + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNamesTemp[index] })
     }
 
     const input = { photos: photoSet }
@@ -177,6 +174,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
 
   /* IMAGE UPLOAD */
   const uploadPhotos = async() =>  {
+    const { uploadUrl, authToken } = fileUploadAuth
     let imageNames = []
 
     for (let index = 0; index < images.length; index++) {
@@ -185,10 +183,10 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
 
       let sha1Image = await blobToSHA1(imageFile)
 
-      const response = await fetch(authorizationRequest.backblazeUploadUrl, {
+      const response = await fetch(uploadUrl, {
         method: 'POST',
         headers: new Headers({
-          Authorization: `${authorizationRequest.backblazeUploadAuthToken}`,
+          Authorization: `${authToken}`,
           'X-Bz-File-Name': `${imageFile.name}`,
           'Content-Type': `${images[index]['type']}`,
           'X-Bz-Content-Sha1': `${sha1Image}`,
@@ -244,11 +242,12 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
   }
 
   return<div className="rw-segment">
-      <Button onClick={removeGallery}>Remove Gallery</Button>
 
       <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading" style ={{ textAlign: 'center' }}>Edit Gallery {name} </h2>
+        <h2 className="rw-heading rw-heading" style ={{ textAlign: 'center' }}>Edit Gallery: {name} </h2>
       </header>
+
+      <Button onClick={removeGallery}>Remove Gallery</Button>
 
       <div className="rw-segment-main">
 
@@ -270,7 +269,7 @@ export const Success = ({ authorizationRequest, gallery: { galleryId, name, lati
           <MonthField name="tripDate" defaultValue={convertUTCtoMonthYear(tripDate)} errorClassName= "error" validation={{ required: true }}  />
           <FieldError style={{color: 'red'}}  name="tripDate"/>
 
-          <GalleryCell id={galleryId} />
+          <GalleryCell id={ parseInt(galleryId) } />
 
           <ImageUploader
               withIcon={false}
