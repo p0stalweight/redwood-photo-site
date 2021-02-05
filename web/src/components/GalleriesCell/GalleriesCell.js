@@ -7,6 +7,7 @@ export const QUERY = gql`
     galleries {
       id
       name
+      tripDate
       iconImageURL
     }
   }
