@@ -6,6 +6,7 @@ import Resizer from 'react-image-file-resizer'
 import { useState } from 'react'
 import blobToSHA1 from 'blob-to-sha1'
 import { v4 as uuidv4 } from 'uuid'
+import Compress from "react-image-file-resizer"
 
 export const QUERY = gql`
   query FILE_UPLOAD_AUTH {
