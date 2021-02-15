@@ -253,7 +253,7 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
       <Button onClick={removeGallery}>Remove Gallery</Button>
 
       <div className="rw-segment-main">
-        <GalleryUploadForm name={name} latitude={latitude} longitude={longitude} tripDate={tripDate} onSave={modifyGallery}/>
+        <GalleryUploadForm gallery = {{ name:name, latitude:latitude, longitude: longitude, tripDate: tripDate,}} onSave={modifyGallery}/>
         <GalleryCell id={ parseInt(galleryId) } />
         <ImageUploader
           withIcon={false}

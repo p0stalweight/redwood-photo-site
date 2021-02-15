@@ -7,9 +7,9 @@ import {
   Submit,
   MonthField,
 } from '@redwoodjs/forms'
-const GalleryUploadForm = ({onSave, name, latitude, longitude, tripDate}) => {
+const GalleryUploadForm = (props) => {
   const onSubmit = (data) => {
-    onSave(data)
+    props.onSave(data)
   }
 
   const convertUTCtoMonthYear = (date) => {
@@ -18,13 +18,13 @@ const GalleryUploadForm = ({onSave, name, latitude, longitude, tripDate}) => {
     return `${year}-${month}`
   }
 
-  const getYearFromMonthFieldString = (formData) => {
-    let year = formData.substr(0, formData.indexOf('-'))
+  const getYearFromMonthFieldString = (date) => {
+    let year = date.substr(0, date.indexOf('-'))
     return year
   }
 
-  const getMonthFromMonthFieldString = (formData) => {
-    let month = formData.substr(formData.indexOf('-') + 1, 2)
+  const getMonthFromMonthFieldString = (date) => {
+    let month = date.substr(date.indexOf('-') + 1, 2)
     return month
   }
 
@@ -36,7 +36,7 @@ const GalleryUploadForm = ({onSave, name, latitude, longitude, tripDate}) => {
           </Label>
           <TextField
             name="name"
-            defaultValue={name}
+            defaultValue={props.gallery?.name}
             errorClassName="error"
             validation={{ required: true }}
           />
@@ -45,7 +45,7 @@ const GalleryUploadForm = ({onSave, name, latitude, longitude, tripDate}) => {
           <Label errorClassName= "error" name="Latitude" />
           <TextField
             name="Latitude"
-            defaultValue={latitude}
+            defaultValue={props.gallery?.latitude}
             errorClassName= "error"
             validation={{ required: true }}
           />
@@ -54,7 +54,7 @@ const GalleryUploadForm = ({onSave, name, latitude, longitude, tripDate}) => {
           <Label errorClassName= "error" name="Longitude" />
           <TextField
             name="Longitude"
-            defaultValue={longitude}
+            defaultValue={props.gallery?.longitude}
             errorClassName= "error"
             validation={{ required: true }}
           />
@@ -63,7 +63,7 @@ const GalleryUploadForm = ({onSave, name, latitude, longitude, tripDate}) => {
           <Label errorClassName= "error" name="Trip Date" />
           <MonthField
             name="tripDate"
-            defaultValue={convertUTCtoMonthYear(tripDate)}
+            defaultValue={convertUTCtoMonthYear(props.gallery?.tripDate)}
             errorClassName= "error"
             validation={{ required: true }}
           />
