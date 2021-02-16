@@ -47,6 +47,9 @@ const MainLayout = ({ children }) => {
         <Link as={RWLink} to={routes.contact()} mr={6}>
           Contact
         </Link>
+        <Link as={RWLink} to={routes.map()} mr={6}>
+          Map
+        </Link>
       </Box>
 
       {children}

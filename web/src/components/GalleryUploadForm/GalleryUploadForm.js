@@ -13,6 +13,9 @@ const GalleryUploadForm = (props) => {
   }
 
   const convertUTCtoMonthYear = (date) => {
+    if (date === undefined) {
+      return
+    }
     const month = getMonthFromMonthFieldString(date)
     const year = getYearFromMonthFieldString(date)
     return `${year}-${month}`
