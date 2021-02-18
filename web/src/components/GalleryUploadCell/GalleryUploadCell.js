@@ -107,12 +107,13 @@ export const Success = ({ fileUploadAuth }) => {
     const photos = imageNames.map((name, i) => {
       return {
         imageURL: 'https://f002.backblazeb2.com/file/redwood-photo/' + name,
+        thumbnailImageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ name + "mini",
         order: i + 1,
       }
     })
 
     const input = { name: formData.name,
-                    iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageNames[0],
+                    iconImageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageNames[0] + "mini",
                     latitude: parseFloat(`${formData.Latitude}`),
                     longitude: parseFloat(`${formData.Longitude}`),
                     tripDate: `${convertedTripDate}`,

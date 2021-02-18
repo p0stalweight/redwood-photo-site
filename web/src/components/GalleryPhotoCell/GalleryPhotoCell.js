@@ -44,7 +44,7 @@ export const Success = ({ photo: { imageURL, order, galleryId }, gallery }) => {
             />
           )}
           <AspectRatio width="700px" ratio={4 / 3}>
-            <Image src={imageURL} objectFit="cover" />
+            <Image src={ imageURL } objectFit="cover" />
           </AspectRatio>
           {order !== gallery.size ? (
             <Link to={routes.galleryPhoto({ galleryId, order: order + 1 })}>

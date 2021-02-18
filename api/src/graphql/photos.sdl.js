@@ -3,6 +3,7 @@ export const schema = gql`
     id: Int!
     order: Int!
     imageURL: String!
+    thumbnailImageURL: String!
     createdAt: DateTime!
     gallery: Gallery!
     galleryId: Int!
@@ -17,10 +18,12 @@ export const schema = gql`
   input CreatePhotoInput {
     order: Int!
     imageURL: String!
+    thumbnailImageURL: String!
   }
 
   input AddPhotoInput {
     imageURL: String!
+    thumbnailImageURL: String!
     galleryId: Int!
   }
 
@@ -28,6 +31,7 @@ export const schema = gql`
     id: Int
     order: Int
     imageURL: String
+    thumbnailImageURL: String
     galleryId: Int
   }
 

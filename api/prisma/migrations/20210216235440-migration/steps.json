@@ -1,0 +1,50 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "DS"
+      },
+      "argument": "provider",
+      "newValue": "[\"sqlite\", \"postgresql\"]"
+    },
+    {
+      "tag": "DeleteModel",
+      "model": "AuthorizationRequest"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Photo",
+      "field": "thumbnailImageURL",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Photo",
+          "field": "thumbnailImageURL"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Photo",
+          "field": "thumbnailImageURL"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"https://f002.backblazeb2.com/file/redwood-photo/021b311d99c34cdb88fa7daab0b6540amini\""
+    }
+  ]
+}

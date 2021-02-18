@@ -138,7 +138,11 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
       console.log("Image names during photo object creation:")
       console.log(imageFileNamesTemp[index])
 
-      photoSet.push({ order: index + size + 1, imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNamesTemp[index] })
+      photoSet.push({
+        order: index + size + 1,
+        imageURL: "https://f002.backblazeb2.com/file/redwood-photo/"+ imageFileNamesTemp[index],
+        thumbnailImageURL: "https://f002.backblazeb2.com/file/redwood-photo/" + imageFileNamesTemp[index] + "mini",
+       })
     }
 
     const input = { photos: photoSet }
