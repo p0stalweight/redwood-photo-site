@@ -17,7 +17,7 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 import GalleryForm from 'src/components/Admin/GalleryForm'
-import { Button } from "@chakra-ui/core"
+import { Button, Progress } from "@chakra-ui/core"
 import  ImageUploader from 'react-images-upload'
 import { useState } from 'react'
 import sha1 from 'js-sha1'
@@ -268,6 +268,7 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
           withPreview={true}
         />
         <Button onClick={addImagesToGallery}>Add Images to Gallery</Button>
+        <Progress size="xs" isIndeterminate />
       </div>
     </div>
 }

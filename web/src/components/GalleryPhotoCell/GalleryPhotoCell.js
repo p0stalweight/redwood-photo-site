@@ -1,6 +1,6 @@
 import { Link, routes } from '@redwoodjs/router'
 import MainLayout from 'src/layouts/MainLayout'
-import { Image, HStack, Center, IconButton, AspectRatio } from '@chakra-ui/core'
+import { Image, HStack, Center, IconButton, Box } from '@chakra-ui/core'
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
 export const QUERY = gql`
@@ -43,9 +43,9 @@ export const Success = ({ photo: { imageURL, order, galleryId }, gallery }) => {
               size="lg"
             />
           )}
-          <AspectRatio width="700px" ratio={4 / 3}>
+          <Box maxWidth="2000">
             <Image src={ imageURL } objectFit="cover" />
-          </AspectRatio>
+          </Box>
           {order !== gallery.size ? (
             <Link to={routes.galleryPhoto({ galleryId, order: order + 1 })}>
               <IconButton
