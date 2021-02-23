@@ -1,6 +1,7 @@
 import { Link, routes } from '@redwoodjs/router'
 import MainLayout from "src/layouts/MainLayout/MainLayout"
 import Map from 'src/components/Map'
+import MapCell from 'src/components/MapCell'
 import { Box} from '@chakra-ui/core'
 
 
@@ -10,9 +11,7 @@ const MapPage = () => {
   return (
     <>
     <MainLayout>
-      <div style={{ height: '100vh', width: '100%' }}>
-        <Map />
-      </div>
+        <MapCell />
     </MainLayout>
     </>
   )

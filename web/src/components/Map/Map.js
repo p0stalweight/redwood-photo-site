@@ -5,7 +5,8 @@ import {
   GoogleMap,
   Marker,
 } from "react-google-maps"
-import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel"
+import { routes, navigate } from '@redwoodjs/router'
+
 
 
 const MapComp = compose(
@@ -19,22 +20,31 @@ const MapComp = compose(
   withGoogleMap
 )((props) =>
       <GoogleMap
-      defaultZoom={9}
-      defaultCenter={{ lat: 11, lng: 12 }}
+      defaultZoom={7}
+      defaultCenter={{ lat: 47, lng: -120 }}
       >
+      {props.galleries.map((props) => (
+        <Marker
+          key={props.id}
+          position={{lat: parseFloat(props.latitude), lng: parseFloat(props.longitude)}}
+          onClick={() =>{ navigate(routes.gallery({ id: props.id })) }}
+          />
+      ))}
+
 
       </GoogleMap>
 );
 
-const Map = () => {
+const Map = (props) => {
+
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <MapComp/>
+    <div>
+      <div style={{ height: '100vh', width: '100%' }}>
+        <MapComp galleries={props.galleries}/>
+      </div>
     </div>
   )
 }
 
 export default Map
-
-//  API KEY
