@@ -7,6 +7,9 @@ import {
   Submit,
   MonthField,
 } from '@redwoodjs/forms'
+import AdminMap from 'src/components/AdminMap'
+import { Box, Flex } from '@chakra-ui/core'
+
 const GalleryUploadForm = (props) => {
   const onSubmit = (data) => {
     props.onSave(data)
@@ -71,6 +74,8 @@ const GalleryUploadForm = (props) => {
             validation={{ required: true }}
           />
           <FieldError style={{color: 'red'}}  name="tripDate"/>
+
+          <AdminMap/>
 
           <Submit>Add Gallery</Submit>
         </Form>

@@ -9,7 +9,7 @@ import { routes, navigate } from '@redwoodjs/router'
 
 
 
-const MapComp = compose(
+const GalleryLocationMap = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_KEY}&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
@@ -41,7 +41,7 @@ const Map = (props) => {
   return (
     <div>
       <div style={{ height: '100vh', width: '100%' }}>
-        <MapComp galleries={props.galleries}/>
+        <GalleryLocationMap galleries={props.galleries}/>
       </div>
     </div>
   )
