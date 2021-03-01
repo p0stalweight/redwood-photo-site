@@ -30,9 +30,8 @@ export const Success = ({ galleries }) => {
     });
   }
   return(
-    //<button onClick={galleryLatitudesAndLongitudes}>Button</button>
   <div>
-  //<Map galleries={galleries} ></Map>
+    <Map galleries={galleries} ></Map>
   </div>
 )
 }

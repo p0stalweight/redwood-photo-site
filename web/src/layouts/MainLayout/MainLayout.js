@@ -19,7 +19,7 @@ const MainLayout = ({ children }) => {
         <Image boxSize={100} mr="1rem" src={logo} alt="Tree logo" />
 
         <Heading as="h1" alignSelf="center">
-          Frank Postlewaite Photography
+          Northwest Visions Photography
         </Heading>
 
         <Box display={{ md: 'none' }} ml="auto" onClick={onToggle}>

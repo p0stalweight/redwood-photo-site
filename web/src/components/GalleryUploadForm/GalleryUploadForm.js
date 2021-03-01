@@ -7,12 +7,22 @@ import {
   Submit,
   MonthField,
 } from '@redwoodjs/forms'
+import { useState } from 'react'
 import AdminMap from 'src/components/AdminMap'
 import { Box, Flex } from '@chakra-ui/core'
 
 const GalleryUploadForm = (props) => {
+
+  const [coordinates, setCoordinates] = useState({lat: '0', lng: '0'})
+
   const onSubmit = (data) => {
     props.onSave(data)
+
+  }
+
+  const sendMapData = (data) => {
+    console.log(`latitude: ${data.lat}, longitude: ${data.lng}`)
+    setCoordinates({lat: data.lat, lng: data.lng})
   }
 
   const convertUTCtoMonthYear = (date) => {
@@ -52,6 +62,7 @@ const GalleryUploadForm = (props) => {
           <TextField
             name="Latitude"
             defaultValue={props.gallery?.latitude}
+            value={coordinates.lat}
             errorClassName= "error"
             validation={{ required: true }}
           />
@@ -61,6 +72,7 @@ const GalleryUploadForm = (props) => {
           <TextField
             name="Longitude"
             defaultValue={props.gallery?.longitude}
+            value={coordinates.lng}
             errorClassName= "error"
             validation={{ required: true }}
           />
@@ -75,7 +87,9 @@ const GalleryUploadForm = (props) => {
           />
           <FieldError style={{color: 'red'}}  name="tripDate"/>
 
-          <AdminMap/>
+          <div>Current lat: {coordinates.lat} Current long: {coordinates.lng} </div>
+
+          <AdminMap mapSelected={sendMapData} />
 
           <Submit>Add Gallery</Submit>
         </Form>
