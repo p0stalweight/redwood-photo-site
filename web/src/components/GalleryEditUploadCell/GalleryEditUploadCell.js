@@ -162,8 +162,6 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
   /* MODIFY GALLERY */
   // Take the new form information and mutate the gallery
   const modifyGallery = (formData) => {
-    console.log("formData:")
-    console.log(formData)
     let year = getYearFromMonthFieldString(formData.tripDate)
     let month = getMonthFromMonthFieldString(formData.tripDate)
 
@@ -257,7 +255,7 @@ export const Success = ({ fileUploadAuth, gallery: { galleryId, name, latitude, 
       <Button onClick={removeGallery}>Remove Gallery</Button>
 
       <div className="rw-segment-main">
-        <GalleryUploadForm gallery = {{ name:name, latitude:latitude, longitude: longitude, tripDate: tripDate,}} onSave={modifyGallery}/>
+        <GalleryUploadForm gallery = {{ name:name, latitude:latitude, longitude: longitude, tripDate: tripDate,}} onSave={modifyGallery} isEdit={true}/>
         <GalleryCell id={ parseInt(galleryId) } />
         <ImageUploader
           withIcon={false}

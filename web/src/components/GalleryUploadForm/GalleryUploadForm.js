@@ -7,6 +7,10 @@ import {
   Submit,
   MonthField,
 } from '@redwoodjs/forms'
+import {
+  HStack,
+  SimpleGrid
+} from '@chakra-ui/core'
 import { useState } from 'react'
 import AdminMap from 'src/components/AdminMap'
 import { Box, Flex } from '@chakra-ui/core'
@@ -45,8 +49,10 @@ const GalleryUploadForm = (props) => {
   }
 
   return (
-    <div className="rw-segment-main">
-        <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
+  <div>
+  <Box maxW="xlg">
+    <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
+      <Box>
           <Label errorClassName="error" name="name">
             Name
           </Label>
@@ -86,12 +92,19 @@ const GalleryUploadForm = (props) => {
             validation={{ required: true }}
           />
           <FieldError style={{color: 'red'}}  name="tripDate"/>
+        </Box>
 
-          <AdminMap mapSelected={sendMapData} />
+        <Submit style={{color: 'blue', outlineStyle: 'solid'}}>{props.isEdit ? 'Edit Gallery' : 'Submit Gallery'}</Submit>
 
-          <Submit>Add Gallery</Submit>
-        </Form>
-      </div>
+    </Form>
+  </Box>
+
+  <Box>
+    <AdminMap mapSelected={sendMapData} />
+  </Box>
+
+
+  </div>
   )
 }
 
