@@ -2,11 +2,12 @@ import {
   Container,
   Box,
   Button,
-  Image,
-  Heading,
   Flex,
-  useDisclosure,
+  Heading,
+  Image,
   Link,
+  useDisclosure,
+  SimpleGrid,
 } from '@chakra-ui/core'
 import { routes, navigate } from '@redwoodjs/router'
 import GalleriesEditCell from 'src/components/GalleriesEditCell'
@@ -17,18 +18,19 @@ const ManageGalleriesPage = () => {
   }
   return (
     <>
-      <Container padding ="10" backgroundColor='#79BDBD' color="white">
-        <h1 style ={{ textAlign: 'center', fontSize: '40px' }}>Manage Galleries</h1>
+      <Container maxW= "xl" padding ="10" backgroundColor='#79BDBD' color="white" fonts="Arial">
+        <h1 style ={{ textAlign: 'center', fontFamily: "-moz-initial", fontSize: '60px' }}>Manage Galleries</h1>
       </Container>
+
       <Container maxW="xl">
-        <Box padding ="4">
-         <Button onClick={ toUpload }>Add a new gallery</Button>
-        </Box>
-        <Box padding ="4">
-          <p>Edit an existing gallery:</p>
-        </Box>
+        <SimpleGrid columns={[1, 2, 3]} spacing={10} mt={8}>
+          <Button onClick={ toUpload }><p style= {{ fontSize: '25px' }}>Add a new gallery</p></Button>
+          <div></div>
+          <p style= {{ fontSize: '25px', fontStyle: 'oblique' }}>Select a gallery to modify it</p>
+        </SimpleGrid>
         <GalleriesEditCell />
       </Container>
+
     </>
   )
 }

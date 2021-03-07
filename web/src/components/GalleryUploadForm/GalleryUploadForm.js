@@ -87,8 +87,6 @@ const GalleryUploadForm = (props) => {
           />
           <FieldError style={{color: 'red'}}  name="tripDate"/>
 
-          <div>Current lat: {coordinates.lat} Current long: {coordinates.lng} </div>
-
           <AdminMap mapSelected={sendMapData} />
 
           <Submit>Add Gallery</Submit>
